@@ -39,3 +39,9 @@ void HelperDrone::update(double dt){
 void HelperDrone::acceptHandoff(Package *package){
 
 }
+
+void HelperDrone::notify(const std::string& message) const {
+  // JsonObject details;
+  // details["message"] = message;
+  // this->controller.sendEventToView("Notification", details);
+}

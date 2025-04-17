@@ -63,8 +63,8 @@ addDroneButton.onclick = () => {
   position[0] += randFloat(-10, 10);
   position[2] += randFloat(-10, 10);
   sendCommand("CreateEntity", {
-    type: "drone",
-    name: "drone-" + droneID,
+    type: "HelperDrone",
+    name: "HelperDrone-" + droneID,
     mesh: "assets/model/drone.glb",
     position: position,
     scale: [0.1, 0.1, 0.1],

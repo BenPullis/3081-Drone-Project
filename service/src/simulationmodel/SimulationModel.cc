@@ -1,6 +1,7 @@
 #include "SimulationModel.h"
 
-#include "DroneFactory.h"
+#include "LeaderDroneFactory.h"
+#include "HelperDroneFactory.h"
 #include "HelicopterFactory.h"
 #include "HumanFactory.h"
 #include "PackageFactory.h"
@@ -9,7 +10,8 @@
 
 SimulationModel::SimulationModel(IController& controller)
     : controller(controller) {
-  entityFactory.addFactory(new DroneFactory());
+  entityFactory.addFactory(new LeaderDroneFactory());
+  entityFactory.addFactory(new HelperDroneFactory());
   entityFactory.addFactory(new PackageFactory());
   entityFactory.addFactory(new RobotFactory());
   entityFactory.addFactory(new HumanFactory());

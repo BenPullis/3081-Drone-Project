@@ -14,6 +14,8 @@ class HelperDrone : public Drone, public IObserver {
 
         void update(double dt) override;
 
+        void notify(const std::string& message) const;
+
     private:
 
         void acceptHandoff(Package *package);
