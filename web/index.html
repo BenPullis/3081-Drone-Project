@@ -43,6 +43,24 @@
             <button type="button" id="add-human">Add Human</button><br>
             <button type="button" id="add-drone">Add Drone</button><br>
             <button type="button" id="stop-simulation">Stop Simulation</button>
+            <!-- GPT: generate disease creation panel with disease name, duration, recovery, severity, and human -->
+            <button type="button" id="create-disease-button">Create Disease</button>
+            <div id="create-disease-popup" hidden>
+              <h3>Create Disease</h3>
+              <div>Name: <input id="disease-name" type="text"></div>
+              <div>Duration: <input id="disease-duration" type="number" value="10"></div>
+              <div>Recovery Rate: <input id="disease-recovery" type="number" value="1"></div>
+              <div>Severity: <input id="disease-severity" type="number" value="1"></div>
+              <div>Target Human:
+                <select id="target-human-select">
+                  <option value="">Select human...</option>
+                </select>
+              </div>
+              <br>
+              <button id="disease-submit">Submit</button>
+              <button id="disease-cancel">Cancel</button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -50,5 +68,7 @@
     <div id="scene-container"></div>
     <!-- Include the "main" graphics script and run it. -->
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/plague.ts"></script>
+
   </body>
 </html>
