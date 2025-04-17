@@ -17,6 +17,7 @@ function populateHumanDropdown() {
   }
 }
 
+// Copilot generated these
 createButton.onclick = () => {
   populateHumanDropdown();
   popup.hidden = false;
