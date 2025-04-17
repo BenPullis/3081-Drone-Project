@@ -11,7 +11,6 @@ class Disease {
   private:
     std::string name;
     float duration;
-    float radius;
     float recoveryRate;
     float severity;
 
@@ -20,21 +19,16 @@ class Disease {
     * @brief Constructs a new Disease object.
     * @param name Name of the disease.
     * @param duration Duration of the disease.
-    * @param radius Radius of infection.
     * @param recoveryRate Rate at which the disease heals over time.
     * @param severity Severity of the disease.
     */
-    Disease(std::string name, float duration, float radius, float recoveryRate, float severity);
+    Disease(std::string name, float duration, float recoveryRate, float severity);
 
-    
     /** @brief Gets the name of the disease. */
     std::string getName() const;
 
     /** @brief Gets the current duration of the disease. */
     float getDuration() const;
-
-    /** @brief Gets the infection radius of the disease. */
-    float getRadius() const;
 
     /** @brief Gets the recovery rate of the disease. */
     float getRecoveryRate() const;
@@ -59,11 +53,6 @@ class Disease {
      */
     bool isCured() const;
 
-    /**
-     * @brief Sets the radius of the disease.
-     * @param r The new radius value.
-     */
-    void setRadius(float r);
 
     /**
      * @brief Sets the severity of the disease.
