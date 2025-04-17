@@ -140,7 +140,8 @@ std::vector<IEntity*> SimulationModel::getEntities() const {
 }
 
 void SimulationModel::injectDisease(const JsonObject& data) {
-  // Chatgpt recommended I add this check. Prompt: what should I add to this function and add error checking
+  // Chatgpt recommended I add this check. Prompt: what should I add to this
+  // function and add error checking
   if (!data.contains("targetName") || !data.contains("disease")) {
     std::cerr << "[injectDisease] Missing targetName or disease field."
               << std::endl;
