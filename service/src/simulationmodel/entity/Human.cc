@@ -18,6 +18,19 @@ Human::Human(const JsonObject& obj) : IEntity(obj) {}
 Human::~Human() {
   if (movement) delete movement;
   if (reactionStrategy) delete reactionStrategy;
+
+  for (Human* sub : subscribers) {
+    sub->unsubscribe(this);
+  }
+  for (IEntity* entity : model->getEntities()) {
+    Human* other = dynamic_cast<Human*>(entity);
+    if (other && other != this) {
+      other->unsubscribe(this);
+    }
+  }
+  subscribers.clear();
+  // Optional: spawn gravestone
+  // model->addEntity(new Gravestone(this->getPosition()));
 }
 
 void Human::update(double dt) {
@@ -39,22 +52,22 @@ void Human::update(double dt) {
     if (model) movement = new AstarStrategy(position, dest, model->getGraph());
   }
 
-  // Disease ticking
+  // Heal from disease
   for (Disease& d : knownDiseases) {
     d.setDuration(d.getDuration() - d.getRecoveryRate() * dt);
     if (d.getDuration() < 0) d.setDuration(0);
   }
 
   removeCuredDiseases();
-  checkForDeath();
   setColor();
   manageObservers();
+  checkForDeath();
 
-  // Automatic disease spreading every 5 seconds
+  // auto spread disease every 5 seconds
   spreadTimer += dt;
   if (spreadTimer >= spreadInterval) {
     publishDisease();
-    // Optional: show disease spreading animation
+    // optional todo: show disease spreading animation
     spreadTimer = 0.0f;
   }
 }
@@ -82,7 +95,6 @@ void Human::publishDisease() {
                                  (static_cast<float>(RAND_MAX / (1.0f - 0.1f)));
 
   // Chatgpt: refactor this to publish one random disease instead of first one
-
   std::vector<Disease> activeDiseases;
   for (const Disease& d : knownDiseases) {
     if (!d.isCured()) {
@@ -170,7 +182,7 @@ void Human::checkForDeath() {
     msg += "]";
     std::cout << msg << std::endl;
     notifyObservers(msg);
-    // model->removeEntity(this->getId()); // this does NOT work sob
+    model->removeEntity(this->getId());
     // Optional: spawn gravestone
   }
 }
