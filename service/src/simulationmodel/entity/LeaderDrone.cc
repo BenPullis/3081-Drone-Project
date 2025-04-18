@@ -1,4 +1,5 @@
 #include "LeaderDrone.h"
+#include <limits>
 
 LeaderDrone::LeaderDrone(const JsonObject& obj) : Drone(obj) { 
     available = true;
@@ -6,6 +7,7 @@ LeaderDrone::LeaderDrone(const JsonObject& obj) : Drone(obj) {
 }
 
 void LeaderDrone::update(double dt){
+  
   if(this->getSpeed() > 0){
     battery -= 0.005;
   }
@@ -18,7 +20,7 @@ void LeaderDrone::update(double dt){
     std::string message = "LeaderDrone 20% battery - Time to handoff and recharge";
     this->model->notify(message);
   }
-  
+
   if (available) getNextDelivery();
 
   if (toPackage) {
@@ -61,7 +63,18 @@ void LeaderDrone::requestHandoff(){
 }
 
 HelperDrone * LeaderDrone::findNearestHelper(){
-    return nullptr;
+  HelperDrone * curr = nullptr;
+  double distance = std::numeric_limits<double>::infinity();
+  double currDist = 0.0;
+    for(auto& helper : helpers){
+      HelperDrone *origin = dynamic_cast<HelperDrone*>(helper->getOriginal());
+      currDist = this->getPosition().dist(origin->getPosition());
+      if(currDist < distance){
+        distance = currDist;
+        curr = origin;
+      }
+    }
+  return curr;
 }
 
 void LeaderDrone::addHelper(DroneColorDecorator* helper) { helpers.push_back(helper); }
