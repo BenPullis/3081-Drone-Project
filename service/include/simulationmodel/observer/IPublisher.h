@@ -12,7 +12,7 @@ class IPublisher {
   virtual void removeObserver(const IObserver* o);
   virtual void notifyObservers(const std::string& message);
 
- private:
+ protected:
   std::set<const IObserver*> observers;
 };
 

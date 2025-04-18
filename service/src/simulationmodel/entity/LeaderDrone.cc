@@ -6,6 +6,19 @@ LeaderDrone::LeaderDrone(const JsonObject& obj) : Drone(obj) {
 }
 
 void LeaderDrone::update(double dt){
+  if(this->getSpeed() > 0){
+    battery -= 0.005;
+  }
+  else{
+    battery -= 0.0025;
+  }
+
+  if((battery - 20.0 < EPSILON) && lowBatNoti){
+    lowBatNoti = false;
+    std::string message = "LeaderDrone 20% battery - Time to handoff and recharge";
+    this->model->notify(message);
+  }
+  
   if (available) getNextDelivery();
 
   if (toPackage) {
@@ -40,7 +53,7 @@ void LeaderDrone::update(double dt){
 }
 
 void LeaderDrone::recharge(){
-    
+    lowBatNoti = true;
 }
 
 void LeaderDrone::requestHandoff(){
@@ -50,3 +63,5 @@ void LeaderDrone::requestHandoff(){
 HelperDrone * LeaderDrone::findNearestHelper(){
     return nullptr;
 }
+
+void LeaderDrone::addHelper(DroneColorDecorator* helper) { helpers.push_back(helper); }

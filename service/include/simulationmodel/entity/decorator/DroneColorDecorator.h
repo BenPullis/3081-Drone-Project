@@ -12,12 +12,14 @@ class DroneColorDecorator : public DroneDecorator {
   double light = 0;
   double distToPackage = -1;
   double distToDestination = -1;
+  Drone *original = nullptr;
 
  public:
   DroneColorDecorator(Drone* d, double = 0, double = 0, double = 0);
   std::string getColor() const;
   void setColor(double h, double s, double l);
   void update(double dt);
+  Drone *getOriginal();
 };
 
 #endif  // DRONE_COLOR_DECORATOR_H

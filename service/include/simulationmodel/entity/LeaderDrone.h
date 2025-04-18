@@ -2,10 +2,14 @@
 #define LEADERDRONE_H_
 
 #include "Drone.h"
+#include "DroneColorDecorator.h"
 #include "HelperDrone.h"
 #include "IPublisher.h"
 #include "Package.h"
 #include <vector>
+#include <cmath>
+
+class HelperDrone;
 
 class LeaderDrone : public Drone {
 
@@ -15,6 +19,8 @@ class LeaderDrone : public Drone {
 
         void update(double dt) override;
 
+        void addHelper(DroneColorDecorator* helper);
+
     private:
         void recharge();
 
@@ -23,7 +29,12 @@ class LeaderDrone : public Drone {
         HelperDrone * findNearestHelper();
 
         double battery;
-        std::vector<HelperDrone> helpers;
+
+        std::vector<DroneColorDecorator*> helpers;
+
+        const double EPSILON = 1e-6;
+
+        bool lowBatNoti = true;
 
 };
 

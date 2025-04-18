@@ -3,6 +3,7 @@
 HelperDrone::HelperDrone(const JsonObject& obj) : Drone(obj) { available = true; }
 
 void HelperDrone::update(double dt){
+  
   if (available) getNextDelivery();
 
   if (toPackage) {
@@ -41,7 +42,5 @@ void HelperDrone::acceptHandoff(Package *package){
 }
 
 void HelperDrone::notify(const std::string& message) const {
-  // JsonObject details;
-  // details["message"] = message;
-  // this->controller.sendEventToView("Notification", details);
+  this->model->notify(message);
 }

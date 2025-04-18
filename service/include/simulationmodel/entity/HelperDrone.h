@@ -2,9 +2,11 @@
 #define HELPERDRONE_H_
 
 #include "Drone.h"
-#include <vector>
+#include "SimulationModel.h"
 #include "IObserver.h"
 #include "Package.h"
+
+#include <vector>
 
 class HelperDrone : public Drone, public IObserver {
 
