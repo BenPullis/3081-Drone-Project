@@ -6,6 +6,7 @@
 #include "HelperDrone.h"
 #include "IPublisher.h"
 #include "Package.h"
+#include "vector3.h"
 #include <vector>
 #include <cmath>
 
@@ -35,6 +36,14 @@ class LeaderDrone : public Drone {
         const double EPSILON = 1e-6;
 
         bool lowBatNoti = true;
+
+        bool waitingForHelper = false;
+
+        bool recharging = false;
+
+        Vector3 chargerPosition;
+
+        IStrategy* toCharger = nullptr;
 
 };
 

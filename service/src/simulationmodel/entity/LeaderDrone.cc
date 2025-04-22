@@ -1,29 +1,73 @@
 #include "LeaderDrone.h"
+#include "BeelineStrategy.h"
 #include <limits>
 
-LeaderDrone::LeaderDrone(const JsonObject& obj) : Drone(obj) { 
+LeaderDrone::LeaderDrone(const JsonObject& obj) : Drone(obj), chargerPosition(-161, 226, 241) { 
     available = true;
     battery = 100.0; 
 }
 
 void LeaderDrone::update(double dt){
-  
-  if(this->getSpeed() > 0){
-    battery -= 0.005;
-  }
-  else{
-    battery -= 0.0025;
-  }
 
-  if((battery - 20.0 < EPSILON) && lowBatNoti){
+  battery -= ((this->getSpeed() > 0)? 0.01 : 0.005);
+
+
+
+
+  if(waitingForHelper){
+    return;
+  }
+  else if((battery - 20.0 < EPSILON) && lowBatNoti){
     lowBatNoti = false;
-    std::string message = "LeaderDrone 20% battery - Time to handoff and recharge";
+
+    HelperDrone* nearestHelper = findNearestHelper();
+    if (nearestHelper) {
+    std::string message = "LeaderDrone low battery - Help request sent to " + nearestHelper->getName();
+    this->model->notify(message);
+    if(package && pickedUp){
+      //waitingForHelper = true;
+    }
+
+    //nearestHelper->assignHandoff(package);
+    toCharger = new BeelineStrategy(getPosition(), chargerPosition);
+    delete toFinalDestination;
+    toFinalDestination = nullptr;
+    delete toPackage;
+    toPackage = nullptr;
+    package = nullptr;
+    return;
+
+  } else {
+    std::string message = "No available HelperDrone to handle handoff, recharging with package";
     this->model->notify(message);
   }
 
+    //waitingForHelper = (this->);
+    return;
+  }
+
+
+
+
+
+
   if (available) getNextDelivery();
 
-  if (toPackage) {
+  if(toCharger){
+    toCharger->move(this, dt);
+
+    if (toCharger->isCompleted()) {
+      std::string message = "LeaderDrone recharged to 100%";
+      notifyObservers(message);
+      delete toCharger;
+      toCharger = nullptr;
+      available = true;
+      pickedUp = false;
+      battery = 100.0;
+      lowBatNoti = true;
+    }
+  }
+  else if (toPackage) {
     toPackage->move(this, dt);
 
     if (toPackage->isCompleted()) {
@@ -55,11 +99,10 @@ void LeaderDrone::update(double dt){
 }
 
 void LeaderDrone::recharge(){
-    lowBatNoti = true;
-}
-
-void LeaderDrone::requestHandoff(){
-    
+    if(this->getPosition().dist(chargerPosition) < 5){
+      battery = 100.0;
+      lowBatNoti = true;
+    }
 }
 
 HelperDrone * LeaderDrone::findNearestHelper(){
@@ -69,7 +112,7 @@ HelperDrone * LeaderDrone::findNearestHelper(){
     for(auto& helper : helpers){
       HelperDrone *origin = dynamic_cast<HelperDrone*>(helper->getOriginal());
       currDist = this->getPosition().dist(origin->getPosition());
-      if(currDist < distance){
+      if(currDist < distance && origin->available){
         distance = currDist;
         curr = origin;
       }
