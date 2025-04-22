@@ -4,9 +4,9 @@
 #include <vector>
 
 #include "Drone.h"
-#include "LeaderDrone.h"
 #include "DroneColorDecorator.h"
 #include "IEntityFactory.h"
+#include "LeaderDrone.h"
 
 /**
  *@brief LeaderDrone Factory to produce LeaderDrones class.

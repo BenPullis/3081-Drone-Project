@@ -1,27 +1,23 @@
 #ifndef HELPERDRONE_H_
 #define HELPERDRONE_H_
 
-#include "Drone.h"
-#include "SimulationModel.h"
-#include "IObserver.h"
-#include "Package.h"
-
 #include <vector>
 
+#include "Drone.h"
+#include "IObserver.h"
+#include "Package.h"
+#include "SimulationModel.h"
+
 class HelperDrone : public Drone, public IObserver {
+ public:
+  HelperDrone(const JsonObject& obj);
 
-    public:
+  void update(double dt) override;
 
-        HelperDrone(const JsonObject& obj);
+  void notify(const std::string& message) const;
 
-        void update(double dt) override;
-
-        void notify(const std::string& message) const;
-
-    private:
-
-        void acceptHandoff(Package *package);
-    
+ private:
+  void acceptHandoff(Package* package);
 };
 
 #endif

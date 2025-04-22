@@ -15,7 +15,7 @@ class DroneColorDecorator : public DroneDecorator {
   Drone *original = nullptr;
 
  public:
-  DroneColorDecorator(Drone* d, double = 0, double = 0, double = 0);
+  DroneColorDecorator(Drone *d, double = 0, double = 0, double = 0);
   std::string getColor() const;
   void setColor(double h, double s, double l);
   void update(double dt);

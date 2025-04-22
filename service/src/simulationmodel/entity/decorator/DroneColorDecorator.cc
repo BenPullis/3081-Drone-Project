@@ -2,8 +2,8 @@
 
 DroneColorDecorator::DroneColorDecorator(Drone* d, double h, double s, double l)
     : DroneDecorator(d), hue(h), saturation(s), light(l) {
-      original = d;
-    }
+  original = d;
+}
 
 std::string DroneColorDecorator::getColor() const {
   auto sub_color = sub->getColor();
@@ -39,8 +39,7 @@ void DroneColorDecorator::update(double dt) {
       distToPackage = (sub->getPosition() - p->getPosition()).magnitude();
     }
     if (distToDestination < 0) {
-      distToDestination =
-          (p->getPosition() - p->getDestination()).magnitude();
+      distToDestination = (p->getPosition() - p->getDestination()).magnitude();
     }
     if (!sub->pickedUp) {
       double percentage =
@@ -52,7 +51,7 @@ void DroneColorDecorator::update(double dt) {
           1 - ((sub->getPosition() - p->getDestination()).magnitude() /
                distToDestination);
 
-      setColor(60+ 60 * percentage, 100, 50);
+      setColor(60 + 60 * percentage, 100, 50);
     }
   } else {
     setColor(0, 0, 100);
@@ -63,6 +62,4 @@ void DroneColorDecorator::update(double dt) {
   sub->update(dt);
 }
 
-Drone * DroneColorDecorator::getOriginal(){
-  return original;
-}
+Drone* DroneColorDecorator::getOriginal() { return original; }

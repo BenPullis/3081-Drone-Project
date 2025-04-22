@@ -11,8 +11,8 @@
 #include "IController.h"
 #include "IEntity.h"
 #include "IObserver.h"
-#include "Robot.h"
 #include "LeaderDrone.h"
+#include "Robot.h"
 
 class LeaderDrone;
 

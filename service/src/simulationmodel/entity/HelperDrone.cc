@@ -1,9 +1,10 @@
 #include "HelperDrone.h"
 
-HelperDrone::HelperDrone(const JsonObject& obj) : Drone(obj) { available = true; }
+HelperDrone::HelperDrone(const JsonObject& obj) : Drone(obj) {
+  available = true;
+}
 
-void HelperDrone::update(double dt){
-  
+void HelperDrone::update(double dt) {
   if (available) getNextDelivery();
 
   if (toPackage) {
@@ -37,9 +38,7 @@ void HelperDrone::update(double dt){
   }
 }
 
-void HelperDrone::acceptHandoff(Package *package){
-
-}
+void HelperDrone::acceptHandoff(Package* package) {}
 
 void HelperDrone::notify(const std::string& message) const {
   this->model->notify(message);

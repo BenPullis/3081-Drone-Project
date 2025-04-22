@@ -1,50 +1,49 @@
 #ifndef LEADERDRONE_H_
 #define LEADERDRONE_H_
 
+#include <cmath>
+#include <vector>
+
 #include "Drone.h"
 #include "DroneColorDecorator.h"
 #include "HelperDrone.h"
 #include "IPublisher.h"
 #include "Package.h"
 #include "vector3.h"
-#include <vector>
-#include <cmath>
 
 class HelperDrone;
 
 class LeaderDrone : public Drone {
+ public:
+  LeaderDrone(const JsonObject& obj);
 
-    public:
+  void update(double dt) override;
 
-        LeaderDrone(const JsonObject& obj);
+  void addHelper(DroneColorDecorator* helper);
 
-        void update(double dt) override;
+ private:
 
-        void addHelper(DroneColorDecorator* helper);
+  void requestHandoff();
 
-    private:
-        void recharge();
+  HelperDrone* findNearestHelper();
 
-        void requestHandoff();
+  double battery;
 
-        HelperDrone * findNearestHelper();
+  std::vector<DroneColorDecorator*> helpers;
 
-        double battery;
+  const double EPSILON = 1e-6;
 
-        std::vector<DroneColorDecorator*> helpers;
+  bool lowBatNoti = true;
 
-        const double EPSILON = 1e-6;
+  bool waitingForHelper = false;
 
-        bool lowBatNoti = true;
+  bool recharging = false;
 
-        bool waitingForHelper = false;
+  Vector3 chargerPosition;
 
-        bool recharging = false;
+  IStrategy* toCharger = nullptr;
 
-        Vector3 chargerPosition;
-
-        IStrategy* toCharger = nullptr;
-
+  std::string message;
 };
 
 #endif

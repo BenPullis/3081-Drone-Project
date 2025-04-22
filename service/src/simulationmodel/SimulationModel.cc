@@ -1,12 +1,12 @@
 #include "SimulationModel.h"
 
-#include "LeaderDroneFactory.h"
-#include "HelperDroneFactory.h"
+#include "ChargerFactory.h"
 #include "HelicopterFactory.h"
+#include "HelperDroneFactory.h"
 #include "HumanFactory.h"
+#include "LeaderDroneFactory.h"
 #include "PackageFactory.h"
 #include "RobotFactory.h"
-#include "ChargerFactory.h"
 
 SimulationModel::SimulationModel(IController& controller)
     : controller(controller) {
@@ -42,35 +42,40 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
     myNewEntity->addObserver(this);
   }
 
-  //Used ChatGPT to figure out string comparison for both of these ifs
+  // Used ChatGPT to figure out string comparison for both of these ifs
   if (entity["type"].toString() == "\"LeaderDrone\"") {
     // Log actual runtime type of myNewEntity
     if (myNewEntity) {
-        std::cerr << "[DEBUG] myNewEntity actual type: " << typeid(*myNewEntity).name() << std::endl;
+      std::cerr << "[DEBUG] myNewEntity actual type: "
+                << typeid(*myNewEntity).name() << std::endl;
     } else {
-        std::cerr << "[DEBUG] myNewEntity is null!" << std::endl;
+      std::cerr << "[DEBUG] myNewEntity is null!" << std::endl;
     }
 
-    leader = dynamic_cast<LeaderDrone*>(dynamic_cast<DroneColorDecorator*>(myNewEntity)->getOriginal());
+    leader = dynamic_cast<LeaderDrone*>(
+        dynamic_cast<DroneColorDecorator*>(myNewEntity)->getOriginal());
 
     if (!leader) {
-        std::cerr << "[ERROR] dynamic_cast to LeaderDrone failed!" << std::endl;
+      std::cerr << "[ERROR] dynamic_cast to LeaderDrone failed!" << std::endl;
     } else {
-        std::cerr << "[INFO] Successfully cast to LeaderDrone." << std::endl;
+      std::cerr << "[INFO] Successfully cast to LeaderDrone." << std::endl;
     }
-  } 
+  }
 
-  //Used ChatGPT to figure dynamic cast solution to a type issue
+  // Used ChatGPT to figure dynamic cast solution to a type issue
   if (entity["type"].toString() == "\"HelperDrone\"") {
     if (leader == nullptr) {
-        std::cerr << "[ERROR] Tried to add helper, but leader is null!" << std::endl;
+      std::cerr << "[ERROR] Tried to add helper, but leader is null!"
+                << std::endl;
     } else {
-        DroneColorDecorator* helper = dynamic_cast<DroneColorDecorator*>(myNewEntity);
-        if (helper) {
-            leader->addHelper(helper);
-        } else {
-            std::cerr << "[ERROR] dynamic_cast to DroneColorDecorator failed!" << std::endl;
-        }
+      DroneColorDecorator* helper =
+          dynamic_cast<DroneColorDecorator*>(myNewEntity);
+      if (helper) {
+        leader->addHelper(helper);
+      } else {
+        std::cerr << "[ERROR] dynamic_cast to DroneColorDecorator failed!"
+                  << std::endl;
+      }
     }
   }
 
