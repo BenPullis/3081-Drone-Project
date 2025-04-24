@@ -21,9 +21,9 @@ class LeaderDrone : public Drone {
 
   void addHelper(DroneColorDecorator* helper);
 
- private:
+  void setWaiting(bool set);
 
-  void requestHandoff();
+ private:
 
   HelperDrone* findNearestHelper();
 
@@ -31,13 +31,9 @@ class LeaderDrone : public Drone {
 
   std::vector<DroneColorDecorator*> helpers;
 
-  const double EPSILON = 1e-6;
-
   bool lowBatNoti = true;
 
   bool waitingForHelper = false;
-
-  bool recharging = false;
 
   Vector3 chargerPosition;
 

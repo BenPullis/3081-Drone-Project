@@ -5,7 +5,7 @@
 #include "BeelineStrategy.h"
 
 LeaderDrone::LeaderDrone(const JsonObject& obj)
-    : Drone(obj), chargerPosition(-161, 226, 241) {
+    : Drone(obj), chargerPosition(-160, 226, 241) {
   available = true;
   battery = 100.0;
 }
@@ -15,7 +15,7 @@ void LeaderDrone::update(double dt) {
 
   if (waitingForHelper) {
     return;
-  } else if ((battery - 20.0 < EPSILON) && lowBatNoti) {
+  } else if ((battery - 20.0 < 0) && lowBatNoti) {
     lowBatNoti = false;
 
     if (available) {
@@ -24,24 +24,37 @@ void LeaderDrone::update(double dt) {
       this->model->notify(message);
       return;
     } else {
+
+
+
+
+
+
       HelperDrone* nearestHelper = findNearestHelper();
 
       if (nearestHelper) {
         message = "LeaderDrone low battery - Help request sent to " +
                   nearestHelper->getName();
         this->model->notify(message);
-        if (pickedUp) {
-          // waitingForHelper = true;
+        if (!pickedUp) {
+          nearestHelper->assignDelivery(this, toPackage, toFinalDestination, package);
+        } else {
+          waitingForHelper = true;
+          nearestHelper->assignHandoff(this, toFinalDestination, package);
         }
-
-        // nearestHelper->assignHandoff(package);
-        toCharger = new BeelineStrategy(getPosition(), chargerPosition);
-        delete toFinalDestination;
-        toFinalDestination = nullptr;
-        delete toPackage;
         toPackage = nullptr;
-        package = nullptr;
+        toFinalDestination = nullptr;
+
+
+        toCharger = new BeelineStrategy(getPosition(), chargerPosition);
         return;
+
+
+
+
+
+
+
       } else {
         message =
             "No available HelperDrone to handle handoff, heading to recharge";
@@ -68,7 +81,6 @@ void LeaderDrone::update(double dt) {
       delete toCharger;
       toCharger = nullptr;
       available = (package) ? false : true;
-      // pickedUp = false;
       battery = 100.0;
       lowBatNoti = true;
     }
@@ -120,4 +132,9 @@ HelperDrone* LeaderDrone::findNearestHelper() {
 
 void LeaderDrone::addHelper(DroneColorDecorator* helper) {
   helpers.push_back(helper);
+}
+
+void LeaderDrone::setWaiting(bool set) {
+  waitingForHelper = set;
+  package = nullptr;
 }

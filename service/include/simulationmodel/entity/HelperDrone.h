@@ -7,6 +7,9 @@
 #include "IObserver.h"
 #include "Package.h"
 #include "SimulationModel.h"
+#include "LeaderDrone.h"
+
+class LeaderDrone;
 
 class HelperDrone : public Drone, public IObserver {
  public:
@@ -16,8 +19,16 @@ class HelperDrone : public Drone, public IObserver {
 
   void notify(const std::string& message) const;
 
+  void assignHandoff(LeaderDrone* leader, IStrategy* toFinalDestination, Package* package);
+
+  void assignDelivery(LeaderDrone* leader, IStrategy* toPackage, IStrategy* toFinalDestination, Package* package );
+
  private:
-  void acceptHandoff(Package* package);
+  bool toLeader = false;
+
+  LeaderDrone *leader = nullptr;
+
+  std::string message;
 };
 
 #endif
