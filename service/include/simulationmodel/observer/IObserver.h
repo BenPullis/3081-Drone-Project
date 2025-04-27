@@ -4,8 +4,8 @@
 #include <string>
 
 class IObserver {
- public:
+public:
   virtual void notify(const std::string &message) const = 0;
 };
 
-#endif  // IOBSERVER_H_
+#endif // IOBSERVER_H_
