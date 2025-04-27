@@ -11,7 +11,7 @@ LeaderDrone::LeaderDrone(const JsonObject& obj)
 }
 
 void LeaderDrone::update(double dt) {
-  battery -= ((!available) ? 0.01 : 0.01);
+  battery -= ((available) ? 0.0075 : 0.0125);
 
   if (waitingForHelper) {
     return;
@@ -25,11 +25,6 @@ void LeaderDrone::update(double dt) {
       return;
     } else {
 
-
-
-
-
-
       HelperDrone* nearestHelper = findNearestHelper();
 
       if (nearestHelper) {
@@ -38,6 +33,7 @@ void LeaderDrone::update(double dt) {
         this->model->notify(message);
         if (!pickedUp) {
           nearestHelper->assignDelivery(this, toPackage, toFinalDestination, package);
+          package = nullptr;
         } else {
           waitingForHelper = true;
           nearestHelper->assignHandoff(this, toFinalDestination, package);
@@ -48,12 +44,6 @@ void LeaderDrone::update(double dt) {
 
         toCharger = new BeelineStrategy(getPosition(), chargerPosition);
         return;
-
-
-
-
-
-
 
       } else {
         message =

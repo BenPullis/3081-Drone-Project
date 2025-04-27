@@ -44,7 +44,6 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
 
   // Used ChatGPT to figure out string comparison for both of these ifs
   if (entity["type"].toString() == "\"LeaderDrone\"") {
-    // Log actual runtime type of myNewEntity
     if (myNewEntity) {
       std::cerr << "[DEBUG] myNewEntity actual type: "
                 << typeid(*myNewEntity).name() << std::endl;
