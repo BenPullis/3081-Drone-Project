@@ -19,15 +19,20 @@ void DroneDamageDecorator::update(double dt) {
     windSpeed = weather->windSpeed;
     double magnitude = pow((pow(windSpeed[0], 2.0) + pow(windSpeed[2], 2.0)), 0.5);
 
-    durability -= magnitude * 0.00001;
+    durability -= magnitude * 0.0005;
 
     // destroying the drone in the case of durability hitting 0
     // (IEntityDecorator already deletes sub in the case of the decorator being destroyed)
-    if (durability <= 0.0){
+    if (durability <= 0.0 && hasDiedYet == false){
+        hasDiedYet = true;
+        std::string message = sub->getName() + "'s durability fell to 0 and is no longer functional. ";
+        sub->notifyObservers(message);
+        // delete sub;
         // delete this;
-        std::cout << "death" << std::endl;
-    } else {
+    } else if (hasDiedYet == false) {
         sub->update(dt);
-        sub->setPosition(sub->getPosition() + Vector3(windSpeed) * sub->getSpeed() * 0.003 * dt);
+        // update position based on wind
+        Vector3 newPos = (sub->getPosition() + Vector3(windSpeed) * 0.05 * dt);
+        sub->setPosition(newPos);
     }
 }

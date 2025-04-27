@@ -8,7 +8,7 @@ SevereWeatherSystem::SevereWeatherSystem() : running(true) {
 
 void SevereWeatherSystem::update() {
 
-    double sigma = 50.0;
+    double sigma = 20.0;
     // std::vector<double> deltaWind;
 
     // referred to cppreference when making normal distribution, see line 1
@@ -19,7 +19,7 @@ void SevereWeatherSystem::update() {
     // populates windSpeed[0] and windSpeed[2] (horizontal)
     for (int i = 0; i < 3; i += 2){
         double sample = d(gen);
-        windSpeed[i] += sample;
+        windSpeed[i] = windSpeed[i] * 0.8 + sample;
     }
 
     // ensuring the magnitude does not go over 200
@@ -28,13 +28,7 @@ void SevereWeatherSystem::update() {
     if (magnitudeHorizontal > 200.0) {
         windSpeed[0] = (windSpeed[0] / magnitudeHorizontal) * 200.0;
         windSpeed[2] = (windSpeed[2] / magnitudeHorizontal) * 200.0;
-    } else if (magnitudeHorizontal < -200) {
-        // note to double check if the ones below should be multiplied by 200 or -200
-        windSpeed[0] = (windSpeed[0] / magnitudeHorizontal) * 200.0;
-        windSpeed[2] = (windSpeed[2] / magnitudeHorizontal) * 200.0;
     }
-
-    std::cout << windSpeed[0] << ", " << windSpeed[2] << std::endl;
 }
 
 SevereWeatherSystem* SevereWeatherSystem::getInstance() {
@@ -44,6 +38,10 @@ SevereWeatherSystem* SevereWeatherSystem::getInstance() {
 
     return instance;
 }
+
+
+// for the next two functions, c++ helped me use chrono/thread since i have
+// limited familiarity
 
 void SevereWeatherSystem::updateLoop() {
     while (running) {

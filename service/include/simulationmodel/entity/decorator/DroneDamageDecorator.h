@@ -5,11 +5,13 @@
 #include "Drone.h"
 #include "SevereWeatherSystem.h"
 #include "DroneDecorator.h"
+#include "SimulationModel.h"
 
 class DroneDamageDecorator : public DroneDecorator {
  private:
   double durability = 100.0;
   std::vector<double> windSpeed;
+  bool hasDiedYet = false;
 
  public:
   DroneDamageDecorator(Drone* d, double = 100.0);
