@@ -124,3 +124,21 @@ connect().then((socket) => {
     renderer.render(scene, camera);
   });
 });
+
+// Chatgpt: send command to backend
+window.addEventListener("create-disease", (event: Event) => {
+  const { name, duration, recovery, severity, targetHumanName } = (event as CustomEvent).detail;
+
+  // Format and send command to backend
+  sendCommand("InjectDisease", {
+    targetName: targetHumanName,
+    disease: {
+      name,
+      duration,
+      recoveryRate: recovery,
+      severity
+    }
+  });
+
+  notify(`Injected disease "${name}" into ${targetHumanName}`);
+});
