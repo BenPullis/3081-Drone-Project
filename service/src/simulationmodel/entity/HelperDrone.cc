@@ -8,9 +8,9 @@ HelperDrone::HelperDrone(const JsonObject& obj) : Drone(obj) {
 
 void HelperDrone::update(double dt) {
   if (toLeader) {
-
     if (!toPackage) {
-        toPackage = new BeelineStrategy(this->getPosition(), leader->getPosition());
+      toPackage =
+          new BeelineStrategy(this->getPosition(), leader->getPosition());
     }
 
     toPackage->move(this, dt);
@@ -59,23 +59,27 @@ void HelperDrone::update(double dt) {
   }
 }
 
-void HelperDrone::assignHandoff(LeaderDrone* leader, IStrategy* toFinalDestination, Package* package) {
+void HelperDrone::assignHandoff(LeaderDrone* leader,
+                                IStrategy* toFinalDestination,
+                                Package* package) {
   this->leader = leader;
-  this->toFinalDestination = toFinalDestination;  
+  this->toFinalDestination = toFinalDestination;
   this->package = package;
 
   toLeader = true;
-  available = false; 
+  available = false;
   pickedUp = false;
 }
 
-void HelperDrone::assignDelivery(LeaderDrone* leader, IStrategy* toPackage, IStrategy* toFinalDestination, Package *package) {
+void HelperDrone::assignDelivery(LeaderDrone* leader, IStrategy* toPackage,
+                                 IStrategy* toFinalDestination,
+                                 Package* package) {
   this->leader = leader;
   this->toPackage = toPackage;
   this->toFinalDestination = toFinalDestination;
   this->package = package;
 
-  available = false; 
+  available = false;
   pickedUp = false;
 }
 
