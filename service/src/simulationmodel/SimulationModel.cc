@@ -1,7 +1,9 @@
 #include "SimulationModel.h"
 
+#include "Disease.h"
 #include "DroneFactory.h"
 #include "HelicopterFactory.h"
+#include "Human.h"
 #include "HumanFactory.h"
 #include "PackageFactory.h"
 #include "RobotFactory.h"
@@ -126,4 +128,51 @@ void SimulationModel::notify(const std::string& message) const {
   JsonObject details;
   details["message"] = message;
   this->controller.sendEventToView("Notification", details);
+}
+
+std::vector<IEntity*> SimulationModel::getEntities() const {
+  std::vector<IEntity*> entityList;
+  // copilot suggested this, this is exactly what I was going to do though
+  for (const auto& pair : entities) {
+    entityList.push_back(pair.second);
+  }
+  return entityList;
+}
+
+void SimulationModel::injectDisease(const JsonObject& data) {
+  // Chatgpt recommended I add this check. Prompt: what should I add to this
+  // function and add error checking
+  if (!data.contains("targetName") || !data.contains("disease")) {
+    std::cerr << "[injectDisease] Missing targetName or disease field."
+              << std::endl;
+    return;
+  }
+
+  std::string targetName = data["targetName"];
+  JsonObject d = data["disease"];
+
+  std::string name = d["name"];
+  float duration = static_cast<float>(d["duration"]);
+  float recoveryRate = static_cast<float>(d["recoveryRate"]);
+  float severity = static_cast<float>(d["severity"]);
+
+  Disease newDisease(name, duration, recoveryRate, severity);
+
+  for (IEntity* entity : getEntities()) {
+    if (entity->getName() == targetName) {
+      Human* human = dynamic_cast<Human*>(entity);
+      if (human) {
+        human->onDiseaseReceived(newDisease);
+        std::cout << "[injectDisease] Injected " << name << " into "
+                  << targetName << std::endl;
+      } else {
+        std::cerr << "[injectDisease] Entity named " << targetName
+                  << " is not a Human." << std::endl;
+      }
+      return;
+    }
+  }
+
+  std::cerr << "[injectDisease] No Human found with name: " << targetName
+            << std::endl;
 }
