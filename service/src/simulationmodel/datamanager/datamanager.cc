@@ -30,8 +30,10 @@ void DataManager::update(double dt) {
   make it into a map
   key would be entity
   value as a vector or array or whatever. maybe
-  drone, speed: 10 distance:10 timestamp:10
+  drone, speed: 10 distance:10 timesPastKellerHall:10, color, name,
   store it as a vector or struct
+
+  just update it if not in map
   */
 }
 
