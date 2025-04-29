@@ -1,21 +1,22 @@
-#ifndef DRONE_FACTORY_H_
-#define DRONE_FACTORY_H_
+#ifndef HELPERDRONE_FACTORY_H_
+#define HELPERDRONE_FACTORY_H_
 
 #include <vector>
 
 #include "Drone.h"
 #include "DroneColorDecorator.h"
+#include "HelperDrone.h"
 #include "IEntityFactory.h"
 
 /**
- *@brief Drone Factory to produce Drones class.
+ *@brief HelperDrone Factory to produce HelperDrones class.
  **/
-class DroneFactory : public IEntityFactory {
+class HelperDroneFactory : public IEntityFactory {
  public:
   /**
-   * @brief Destructor for DroneFactory class.
+   * @brief Destructor for HelperDroneFactory class.
    **/
-  virtual ~DroneFactory() {}
+  virtual ~HelperDroneFactory() {}
 
   /**
    * @brief Creates entity using the given JSON object, if possible.

@@ -60,11 +60,11 @@ let droneID = 1;
 let droneColors = ["red", "blue", "green", "orange", "black"];
 addDroneButton.onclick = () => {
   var position = [498.292, 270, -228.623];
-  position[0] += randFloat(-10, 10);
-  position[2] += randFloat(-10, 10);
+  position[0] = randFloat(-1400, 1500);
+  position[2] = randFloat(-800, 800);
   sendCommand("CreateEntity", {
-    type: "drone",
-    name: "drone-" + droneID,
+    type: "HelperDrone",
+    name: "HelperDrone-" + droneID,
     mesh: "assets/model/drone.glb",
     position: position,
     scale: [0.1, 0.1, 0.1],

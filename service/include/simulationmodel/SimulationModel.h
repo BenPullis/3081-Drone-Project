@@ -11,7 +11,10 @@
 #include "IController.h"
 #include "IEntity.h"
 #include "IObserver.h"
+#include "LeaderDrone.h"
 #include "Robot.h"
+
+class LeaderDrone;
 
 //--------------------  Model ----------------------------
 
@@ -103,6 +106,7 @@ class SimulationModel : public IObserver {
   void removeFromSim(int id);
   const routing::Graph* graph = nullptr;
   CompositeFactory entityFactory;
+  LeaderDrone* leader;
 };
 
 #endif
