@@ -1,5 +1,5 @@
-#ifndef DATAMAN_H_
-#define DATAMAN_H_
+#ifndef DATA_MANAGER_H_
+#define DATA_MANAGER_H_
 
 // #include "IObserver.h"
 // #include "IPublisher.h"
@@ -21,8 +21,12 @@ public:
   //   std::chrono::system_clock::time_point creationTime;
   // };
 
+  void update(double dt);
+
   void AddDataEntry(const std::string &location);
   // const std::vector<DataEntry> &GetDataEntries() const;
+
+  void addToDataManager(IEntity *entity);
 
   struct DataEntry {
     std::vector<Vector3> onion_position;
@@ -38,6 +42,7 @@ protected:
 private:
   DataManager();
   std::vector<DataEntry> dataEntries;
+  std::vector<IEntity *> VectorEntities;
 
   // struct DataEntry {
   //   std::vector<Vector3> onion_position;
@@ -46,6 +51,7 @@ private:
   // };
   int yesCSV = 0;
   int yesJSON = 0;
+  int counter = 0;
 };
 
 #endif // DATA_MANAGER_H_
