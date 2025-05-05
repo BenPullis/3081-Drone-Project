@@ -10,12 +10,13 @@ Overview:
 
 
 Instructions:
-    Build: make clean; make -j
-    Run: make run
+    Build: "make clean; make -j"
+    Run: "make run"
     How to use: To use the front end...
 
 
 Requirements:
+
     Ben Pullis - Multi Drone:
         ...
     
@@ -30,6 +31,7 @@ Requirements:
 
 
 Design:
+
     Ben Pullis - Multi Drone:
         ...
     
@@ -52,6 +54,7 @@ Jira Board:
 
 
 UML:
+
     Ben Pullis - Multi Drone:
         (Add link to personal UML)...
     
