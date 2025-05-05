@@ -56,7 +56,7 @@ Jira Board:
 UML:
 
     Ben Pullis - Multi Drone:
-        <img src="./photos/BenUML.png" width="600" alt="Multi Drone UML">
+        <img src="https://github.umn.edu/umn-csci-3081w-s25/team-010-25-finalproject/blob/dev/photos/BenUML.png" width="600" alt="Multi Drone UML">
     
     Divyesh Thirukonda - Plague:
         (Add link to personal UML)...
