@@ -5,7 +5,6 @@
 #include "HelicopterFactory.h"
 #include "HelperDroneFactory.h"
 #include "Disease.h"
-#include "DroneFactory.h"
 #include "Human.h"
 #include "HumanFactory.h"
 #include "LeaderDroneFactory.h"
