@@ -89,7 +89,7 @@ UML:
     
     Divyesh Thirukonda - Plague:
     
-<img src="https://imgur.com/a/dc4V9oL" width="800" alt="Plague UML">
+<img src="https://i.imgur.com/dc4V9oL.png" width="800" alt="Plague UML">
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/dc4V9oL"  ><a href="//imgur.com/a/dc4V9oL">CSCI 3081 Final Project: Plague UML</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 
