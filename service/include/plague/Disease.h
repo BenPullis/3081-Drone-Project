@@ -13,6 +13,7 @@ class Disease {
     float duration;
     float recoveryRate;
     float severity;
+    int variant;
 
   public:
     /**
@@ -24,13 +25,33 @@ class Disease {
     */
     Disease(std::string name, float duration, float recoveryRate, float severity);
 
-    /** @brief Gets the name of the disease. */
+    /**
+     * @brief Gets the name of the disease.
+     * @return The name of the disease.
+     */
     std::string getName() const;
 
-    /** @brief Gets the current duration of the disease. */
+    /**
+     * @brief Increments the variant number of the disease.
+     */
+    void incrementVariant();
+
+    /**
+     * @brief Gets the variant number of the disease.
+     * @return The variant number.
+     */
+    int getVariant() const;
+
+    /**
+    * @brief Gets the duration of the disease.
+    * @return The duration of the disease.
+    */
     float getDuration() const;
 
-    /** @brief Gets the recovery rate of the disease. */
+    /**
+    * @brief Gets the recovery rate of the disease.
+    * @return The recovery rate.
+    */
     float getRecoveryRate() const;
 
     /** @brief Gets the severity of the disease. */

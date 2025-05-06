@@ -1,10 +1,18 @@
 #include "Disease.h"
 
 Disease::Disease(std::string name, float duration, float recoveryRate, float severity)
-    : name(name), duration(duration), recoveryRate(recoveryRate), severity(severity) {}
+    : name(name), duration(duration), recoveryRate(recoveryRate), severity(severity), variant(0) {}
 
 std::string Disease::getName() const {
     return name;
+}
+
+void Disease::incrementVariant() {
+    variant++;
+}
+
+int Disease::getVariant() const {
+    return variant;
 }
 
 float Disease::getDuration() const {
