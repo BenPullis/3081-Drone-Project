@@ -88,7 +88,8 @@ UML:
 <img src="https://i.imgur.com/EqnrhT9.png" width="800" alt="Multi Drone UML">
     
     Divyesh Thirukonda - Plague:
-        (Add link to personal UML)...
+        ![image](https://github.umn.edu/umn-csci-3081w-s25/team-010-25-finalproject/assets/29062/f5537615-1435-47b0-8e3a-2eb9c8746b1e)
+
 
     Adam Douir - Severe weather:
         (Add link to personal UML)...
