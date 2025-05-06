@@ -89,8 +89,8 @@ UML:
     
     Divyesh Thirukonda - Plague:
     
-<img src="https://imgur.com/a/dc4V9oL" width="800" alt="Multi Drone UML">
-![image]([https://github.umn.edu/umn-csci-3081w-s25/team-010-25-finalproject/assets/29062/f5537615-1435-47b0-8e3a-2eb9c8746b1e](https://imgur.com/a/dc4V9oL))
+<img src="https://imgur.com/a/dc4V9oL" width="800" alt="Plague UML">
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/dc4V9oL"  ><a href="//imgur.com/a/dc4V9oL">CSCI 3081 Final Project: Plague UML</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 
     Adam Douir - Severe weather:
