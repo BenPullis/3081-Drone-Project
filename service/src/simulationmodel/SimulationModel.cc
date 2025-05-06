@@ -102,6 +102,7 @@ void SimulationModel::update(double dt) {
   for (auto &[id, entity] : entities) {
     entity->update(dt);
     controller.updateEntity(*entity);
+    Datamanager::getInstance()->update(dt, entity);
   }
   for (int id : removed) {
     removeFromSim(id);

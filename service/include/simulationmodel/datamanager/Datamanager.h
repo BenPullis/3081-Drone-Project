@@ -21,7 +21,7 @@ public:
   //   std::chrono::system_clock::time_point creationTime;
   // };
 
-  void update(double dt);
+  void update(double dt, IEntity *entity);
 
   void AddDataEntry(const std::string &location);
   // const std::vector<DataEntry> &GetDataEntries() const;
@@ -43,12 +43,15 @@ private:
   DataManager();
   std::vector<DataEntry> dataEntries;
   std::vector<IEntity *> VectorEntities;
+  // Datamanager *instance = NULL;
 
-  // struct DataEntry {
-  //   std::vector<Vector3> onion_position;
-  //   std::chrono::system_clock::time_point timestamp;
-  //   std::string name;
-  // };
+  struct DataEntry {
+    std::vector<Vector3> onion_position; // lets get it from ye
+    std::string colour;
+    std::chrono::system_clock::time_point timestamp;
+    std::string name;
+    // in the future maybe lets do something like durability?
+  };
   int yesCSV = 0;
   int yesJSON = 0;
   int counter = 0;
