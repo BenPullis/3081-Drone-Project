@@ -29,8 +29,7 @@ Human::~Human() {
     }
   }
   subscribers.clear();
-  // Optional: spawn gravestone
-  // model->addEntity(new Gravestone(this->getPosition()));
+  knownDiseases.clear();
 }
 
 void Human::update(double dt) {
@@ -59,35 +58,19 @@ void Human::update(double dt) {
   }
 
   removeCuredDiseases();
-  setColor();
   manageObservers();
   checkForDeath();
+  buildSpread(dt);
+}
 
+void Human::buildSpread(double dt) {
   // auto spread disease every 5 seconds
   spreadTimer += dt;
   if (spreadTimer >= spreadInterval) {
     publishDisease();
-    // optional todo: show disease spreading animation
+    // optional: show disease spreading animation
     spreadTimer = 0.0f;
   }
-}
-
-void Human::setColor() {
-  if (knownDiseases.empty()) {
-    opacity = 1.0f;
-  } else {
-    // ChatGPT: Calculate opacity based on disease severity
-    float avgRatio = 0.0f;
-    for (const Disease& d : knownDiseases) {
-      avgRatio += d.getDuration() / d.getRecoveryRate();
-    }
-    avgRatio /= knownDiseases.size();
-    opacity = std::max(0.1f, std::min(1.0f, avgRatio / 10.0f));
-    std::cout << getName() << " is infected with opacity: " << opacity
-              << std::endl;
-  }
-
-  // todo: actually render the human with the opacity
 }
 
 void Human::publishDisease() {
@@ -172,18 +155,7 @@ void Human::checkForDeath() {
   }
 
   if (totalSeverity > 10) {
-    std::string msg = getName() + " met their demise to [";
-    for (size_t i = 0; i < knownDiseases.size(); ++i) {
-      msg += knownDiseases[i].getName();
-      if (i < knownDiseases.size() - 1) {
-        msg += ", ";
-      }
-    }
-    msg += "]";
-    std::cout << msg << std::endl;
-    notifyObservers(msg);
-    model->removeEntity(this->getId());
-    // Optional: spawn gravestone
+    kill();
   }
 }
 
@@ -212,4 +184,18 @@ void Human::manageObservers() {
       }
     }
   }
+}
+
+void Human::kill() {
+  std::string msg = getName() + " met their demise to [";
+  for (size_t i = 0; i < knownDiseases.size(); ++i) {
+    msg += knownDiseases[i].getName();
+    if (i < knownDiseases.size() - 1) {
+      msg += ", ";
+    }
+  }
+  msg += "]";
+  notifyObservers(msg);
+  model->removeEntity(this->getId());
+  // Optional: spawn gravestone
 }

@@ -39,11 +39,6 @@ class Human : public IEntity,
   void update(double dt);
 
   /**
-   * @brief Sets the color/opacity based on infection severity.
-   */
-  void setColor();
-
-  /**
    * @brief Publishes a random disease.
    */
   void publishDisease() override;
@@ -93,6 +88,17 @@ class Human : public IEntity,
    * @brief Checks severity and handles death if needed.
    */
   void checkForDeath();
+
+  /**
+   * @brief Removes the human from the simulation.
+   */
+  void kill();
+
+  /**
+   * @brief Handles the sneeze / spread action.
+   * @param dt Time delta.
+   */
+  void buildSpread(double dt);
 };
 
 #endif

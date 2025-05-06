@@ -13,6 +13,8 @@ public:
 
     /**
      * @brief Returns the processed disease (may be rejected, mutated, or accepted).
+    * @param disease The incoming disease.
+    * @return Some new disease that can have an applied effect.
      */
     virtual Disease processDisease(const Disease& disease) const = 0;
 };
