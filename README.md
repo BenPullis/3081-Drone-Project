@@ -89,9 +89,7 @@ UML:
     
     Divyesh Thirukonda - Plague:
     
-<img src="https://i.imgur.com/g5ALaBK.png" width="800" alt="Plague UML">
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/g5ALaBK"  ><a href="//imgur.com/a/g5ALaBK">CSCI 3081 Final Project: Plague UML</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
+<img src="https://i.imgur.com/ddK1NHA.png" width="800" alt="Plague UML">
 
     Adam Douir - Severe weather:
         (Add link to personal UML)...
