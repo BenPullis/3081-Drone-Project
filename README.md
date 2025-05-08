@@ -6,13 +6,17 @@ Team Names:
 
 
 Overview: 
-    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. [TODO Ben: describe your additions in one sentence] [TODO Adam: describe your additions in one sentence] [TODO Owen: describe your additions in one sentence]
+    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrone's can assist in deliveries whenever a LeaderDrone is low on battery. [TODO Adam: describe your additions in one sentence] [TODO Owen: describe your additions in one sentence]
 
 
 Instructions:
     Build: "make clean; make -j"
     Run: "make run"
-    [TODO Ben: describe your additions in one sentence]
+    Multi-Drone:
+        Add a few HelperDrones and schedule some deliveries, after some time the LeaderDrone 
+        will run low on battery and need to recharge. At this point you will notice the 
+        closest HelperDrone head to recieve the package in a handoff and the LeaderDrone 
+        will go and recharge at the charging station. 
     [TODO Adam: describe your additions in one sentence]
     [TODO Owen: describe your additions in one sentence]
     Plague:
@@ -23,8 +27,15 @@ Instructions:
 
 Requirements:
 
-    Ben Pullis - Multi Drone:
-        ...
+    Ben Pullis - Multi-Drone:
+        The Multi-Drone System shall LeaderDrones and HelperDrones
+        The Multi-Drone System shall have a singular recharge station for charging drones
+        When a LeaderDrone encounters low battery (less than 20%), the Multi-Drone System shall request a handoff to a HelperDrone
+        When a handoff occurs or is requested, the Multi-Drone System shall send a notification to the front end
+        When a handoff is requested, the Multi-Drone System shall find the closest HelperDrone to complete the handoff
+        If there are no HelperDrones, then the LeaderDrone shall recharge before completing its delivery
+        While the HelperDrone is completing the delivery the LeaderDrone shall recharge at the recharge station
+        While the LeaderDrone is completing the delivery the HelperDrones shall sit idle waiting for a request
     
     Divyesh Thirukonda - Plague:
         The system shall always monitor the proximity of all humans and update their observer status (distance from each other) in real time using the observer pattern
@@ -44,7 +55,7 @@ Requirements:
 
 Design:
 
-    Ben Pullis - Multi Drone:
+    Ben Pullis - Multi-Drone:
         ...
 
     
@@ -75,7 +86,7 @@ Design:
 
 
 Sprint retrospective:
-    The planning of this project went really went. We all knew what needed to be done for each extension. After the first sprint ended, we met up and brought some items from our backlog onto the second sprint. Communication was fluid with fast response times from every group member. We didn't have any major blockers. One thing that could be better for the Plague simulation is that spatial scanning is O(n^2), and it happens every frame. In the future, maybe we could have it update every second instead. [TODO All: add somethings that didn't go well with your extension]
+    The planning of this project went really went. We all knew what needed to be done for each extension. After the first sprint ended, we met up and brought some items from our backlog onto the second sprint. Communication was fluid with fast response times from every group member. We didn't have any major blockers. One thing that could be better for the Plague simulation is that spatial scanning is O(n^2), and it happens every frame. In the future, maybe we could have it update every second instead. For the Multi-Drone extension, something that could have been better was in the simulation model, I was having trouble with the type for myNewEntity whenever it was one of the drones so I had to do some funky dynamic casting to get everything to work smoothly and I feel like there is likely an easier way I could have done that. [TODO All: add somethings that didn't go well with your extension]
 
 
 Jira Board:
@@ -84,8 +95,8 @@ Jira Board:
 
 UML:
 
-    Ben Pullis - Multi Drone:
-<img src="https://i.imgur.com/EqnrhT9.png" width="800" alt="Multi Drone UML">
+    Ben Pullis - Multi-Drone:
+<img src="https://i.imgur.com/EqnrhT9.png" width="800" alt="Multi-Drone UML">
     
     Divyesh Thirukonda - Plague:
     
