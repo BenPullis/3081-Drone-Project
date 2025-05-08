@@ -6,7 +6,7 @@ Team Names:
 
 
 Overview: 
-    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrone's can assist in deliveries whenever a LeaderDrone is low on battery. [TODO Adam: describe your additions in one sentence] [TODO Owen: describe your additions in one sentence]
+    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrones can assist in deliveries whenever a LeaderDrone is low on battery. [TODO Adam: describe your additions in one sentence] [TODO Owen: describe your additions in one sentence]
 
 
 Instructions:
@@ -15,7 +15,7 @@ Instructions:
     Multi-Drone:
         Add a few HelperDrones and schedule some deliveries, after some time the LeaderDrone 
         will run low on battery and need to recharge. At this point you will notice the 
-        closest HelperDrone head to recieve the package in a handoff and the LeaderDrone 
+        closest HelperDrone head to receive the package in a handoff and the LeaderDrone 
         will go and recharge at the charging station. 
     [TODO Adam: describe your additions in one sentence]
     [TODO Owen: describe your additions in one sentence]
@@ -56,7 +56,19 @@ Requirements:
 Design:
 
     Ben Pullis - Multi-Drone:
-        ...
+        **OBSERVER PATTERN**
+        We wanted to keep every human automatically informed when another nearby human “publishes” an infectious event (like a sneeze) without hard‑wiring those relationships. Who is “close enough” changes every frame. Observer lets us add/remove listeners at runtime with a simple subscribe and unsubscribe instead of complicated if-else statements. This allows for looser coupling since Human doesn't need to know anything about the disease it just spread. The LeaderDrones are acting as the publisher in the observer pattern because they have a list of subscribes which are HelperDrones and whenever the LeaderDrone's battery is low it publishes a help request to all the HelperDrones which is accepted by the closest one. The HelperDrones are the subscribers because they sit idle, "observing" the Leader and waiting for a request to be sent in. The instant a HelperDrone is created it is added to the LeaderDrone's list of Helpers and there is no way for the HelperDrone to unsubscribe which is a slight modification to the normal observer pattern. This design pattern is ideal because it allows the LeaderDrone easy access to all HelperDrones enabling the LeaderDrone to quickly choose the closest HelperDrone and request assistance.
+        LeaderDrone (Publishers)
+            Every LeaderDrone has a list: std::vector<DroneColorDecorator*> helpers.
+            When the LeaderDrone hits 20% battery it iterates through its helpers to find the closest one and sends a handoff request to that helper.
+        HelperDrone (Subscribers)
+            HelperDrones subscribe to LeaderDrones upon creation and can never unsubscribe. 
+            The HelperDrone has two main functions, assignDelivery() and assignHandoff() that are called by the LeaderDrone whenever it needs help from a HelperDrone due to low battery.
+            The assignDelivery() is for when the LeaderDrone has not picked up the package yet, in this case the Helper will both pick up and drop off the package with the same strategy as the LeaderDrone.
+            The assignHandoff() is for when the LeaderDrone has already picked up the package, in this case the HelperDrone will fly to the LeaderDrone, grab the package, and finish the delivery.
+        Notifications
+            The LeaderDrone sends a notification when it requests a delivery. For example, "LeaderDrone low battery - Help request sent to HelperDrone-3".
+            The HelperDrone sends a notification when it drops a package off like normal. It also sends a notification when a handoff is complete. For example, "HelperDrone-3 picked up package from LeaderDrone"
 
     
     Divyesh Thirukonda - Plague:
@@ -86,7 +98,7 @@ Design:
 
 
 Sprint retrospective:
-    The planning of this project went really went. We all knew what needed to be done for each extension. After the first sprint ended, we met up and brought some items from our backlog onto the second sprint. Communication was fluid with fast response times from every group member. We didn't have any major blockers. One thing that could be better for the Plague simulation is that spatial scanning is O(n^2), and it happens every frame. In the future, maybe we could have it update every second instead. For the Multi-Drone extension, something that could have been better was in the simulation model, I was having trouble with the type for myNewEntity whenever it was one of the drones so I had to do some funky dynamic casting to get everything to work smoothly and I feel like there is likely an easier way I could have done that. [TODO All: add somethings that didn't go well with your extension]
+    The planning of this project went really well. We all knew what needed to be done for each extension. After the first sprint ended, we met up and brought some items from our backlog onto the second sprint. Communication was fluid with fast response times from every group member. We didn't have any major blockers. One thing that could be better for the Plague simulation is that spatial scanning is O(n^2), and it happens every frame. In the future, maybe we could have it update every second instead. For the Multi-Drone extension, something that could have been better was in the simulation model, I was having trouble with the type for myNewEntity whenever it was one of the drones so I had to do some funky dynamic casting to get everything to work smoothly and I feel like there is likely an easier way I could have done that. [TODO All: add some things that didn't go well with your extension]
 
 
 Jira Board:
