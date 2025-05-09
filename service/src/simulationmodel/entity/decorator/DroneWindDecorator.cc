@@ -16,17 +16,20 @@ void DroneWindDecorator::handleDeath() {
 
 void DroneWindDecorator::update(double dt) {
   SevereWeatherSystem* weather = SevereWeatherSystem::getInstance();
-  windSpeed = weather->windSpeed;
+  std::vector<double> wind = (weather) ? weather->windSpeed : std::vector<double>{0.0, 0.0, 0.0};
+  windSpeed = wind;
   double magnitude =
       pow((pow(windSpeed[0], 2.0) + pow(windSpeed[2], 2.0)), 0.5);
 
-  setDurability(durability - magnitude * 0.0001);
+  durability -= magnitude * 0.0001;
 
-  if (durability <= 0.0 && hasDiedYet == false) {
+  if (durability <= 0.0 && !hasDiedYet) {
     handleDeath();
-  } else if (hasDiedYet == false) {
-    sub->update(dt);
-    Vector3 newPos = (sub->getPosition() + Vector3(windSpeed) * 0.05 * dt);
-    sub->setPosition(newPos);
+    return;
   }
+  sub->update(dt);
+  Vector3 newPos = (sub->getPosition() + Vector3(windSpeed) * 0.05 * dt);
+  sub->setPosition(newPos);
 }
+
+Drone* DroneWindDecorator::getOriginal() { return sub; }

@@ -33,23 +33,6 @@
   {
     "command": "CreateEntity",
     "params": {
-      "type": "drone",
-      "name": "Drone",
-      "mesh": "assets/model/drone.glb",
-      "position": [498.292, 270, -228.623],
-      "scale": [0.1, 0.1, 0.1],
-      "rotation": [0, 0, 0, 0],
-      "direction": [1, 0, 0],
-      "speed": 30.0,
-      "radius": 1.0,
-      "start": 2.0,
-      "duration": 2.0,
-      "offset": [0, 0.6, 0]
-    }
-  },
-  {
-    "command": "CreateEntity",
-    "params": {
       "type": "human",
       "name": "Human-OG",
       "mesh": "assets/model/human.glb",
@@ -76,6 +59,20 @@
       "direction": [1, 0, 0],
       "speed": 50.0,
       "offset": [0, 1.5, 0]
+    }
+  },
+  {
+    "command": "CreateEntity",
+    "params": {
+      "type": "Charger",
+      "name": "Charger",
+      "mesh": "assets/model/charger.glb",
+      "position": [-183, 226, 240],
+      "scale": [0.042, 0.042, 0.042],
+      "rotation": [0, 0, 0, 0],
+      "direction": [0, 0, -1],
+      "speed": 0.0,
+      "offset": [0, 0, 0]
     }
   }
 ]

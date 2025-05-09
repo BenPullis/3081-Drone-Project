@@ -44,7 +44,7 @@ class Drone : public IEntity {
    * @brief Updates the drone's position
    * @param dt Delta time
    */
-  void update(double dt);
+  virtual void update(double dt);
 
   /**
    * @brief Removing the copy constructor operator
@@ -61,7 +61,7 @@ class Drone : public IEntity {
   bool available = false;
   bool pickedUp = false;
 
- private:
+ protected:
   Package* package = nullptr;
   IStrategy* toPackage = nullptr;
   IStrategy* toFinalDestination = nullptr;

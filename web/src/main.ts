@@ -19,6 +19,7 @@ const simSpeedSlider = $("#sim-speed");
 const stopSimulationButton = $("#stop-simulation")[0];
 const addHumanButton = $("#add-human")[0];
 const addDroneButton = $("#add-drone")[0];
+const addLeaderDroneButton = $("#add-leaderdrone")[0];
 const deliveryPopup = $("#delivery-popup");
 
 const sceneFile = "scenes/umn.json";
@@ -60,11 +61,11 @@ let droneID = 1;
 let droneColors = ["red", "blue", "green", "orange", "black"];
 addDroneButton.onclick = () => {
   var position = [498.292, 270, -228.623];
-  position[0] += randFloat(-10, 10);
-  position[2] += randFloat(-10, 10);
+  position[0] = randFloat(-1400, 1500);
+  position[2] = randFloat(-800, 800);
   sendCommand("CreateEntity", {
-    type: "drone",
-    name: "drone-" + droneID,
+    type: "HelperDrone",
+    name: "HelperDrone-" + droneID,
     mesh: "assets/model/drone.glb",
     position: position,
     scale: [0.1, 0.1, 0.1],
@@ -78,6 +79,29 @@ addDroneButton.onclick = () => {
     color: droneColors[randInt(0, droneColors.length - 1)],
   });
   droneID += 1;
+};
+
+let leaderDroneID = 2;
+addLeaderDroneButton.onclick = () => {
+  var position = [498.292, 270, -228.623];
+  position[0] = randFloat(-1400, 1500);
+  position[2] = randFloat(-800, 800);
+  sendCommand("CreateEntity", {
+    type: "LeaderDrone",
+    name: "LeaderDrone-" + leaderDroneID,
+    mesh: "assets/model/drone.glb",
+    position: position,
+    scale: [0.1, 0.1, 0.1],
+    rotation: [0, 0, 0, 0],
+    direction: [1, 0, 0],
+    speed: 30.0,
+    radius: 1.0,
+    start: 2.0,
+    duration: 2.0,
+    offset: [0, 0.6, 0],
+    color: droneColors[randInt(0, droneColors.length - 1)],
+  });
+  leaderDroneID += 1;
 };
 
 window.onresize = () => {
@@ -123,4 +147,22 @@ connect().then((socket) => {
     updateControls();
     renderer.render(scene, camera);
   });
+});
+
+// Chatgpt: send command to backend
+window.addEventListener("create-disease", (event: Event) => {
+  const { name, duration, recovery, severity, targetHumanName } = (event as CustomEvent).detail;
+
+  // Format and send command to backend
+  sendCommand("InjectDisease", {
+    targetName: targetHumanName,
+    disease: {
+      name,
+      duration,
+      recoveryRate: recovery,
+      severity
+    }
+  });
+
+  notify(`Injected disease "${name}" into ${targetHumanName}`);
 });

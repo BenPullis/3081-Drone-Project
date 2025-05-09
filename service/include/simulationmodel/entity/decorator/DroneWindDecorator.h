@@ -22,9 +22,11 @@ class DroneWindDecorator : public DroneDecorator {
  private:
   double durability = 100.0;
 
-  std::vector<double> windSpeed;
+  std::vector<double> windSpeed = {0.0, 0.0, 0.0};
 
   bool hasDiedYet = false;
+
+  Drone *original = nullptr;
 
  public:
   /**
@@ -55,6 +57,8 @@ class DroneWindDecorator : public DroneDecorator {
    * magnitude to deal damage and updates position based on windSpeed.
    */
   void update(double dt);
+
+  Drone *getOriginal();
 };
 
 #endif  // DRONE_WIND_DECORATOR_H
