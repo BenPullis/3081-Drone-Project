@@ -39,7 +39,8 @@ class LeaderDrone : public Drone {
 
   /**
    * @brief sets the helpers to a vector of HelperDrones
-   * @param std::vector<DroneColorDecorator*> drones which is all current helpers at the time of creation
+   * @param std::vector<DroneColorDecorator*> drones which is all current
+   * helpers at the time of creation
    */
   void addAllHelpers(std::vector<DroneColorDecorator*> drones);
 

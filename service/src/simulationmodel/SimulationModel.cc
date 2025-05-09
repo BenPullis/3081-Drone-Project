@@ -1,10 +1,9 @@
 #include "SimulationModel.h"
 
-
 #include "ChargerFactory.h"
+#include "Disease.h"
 #include "HelicopterFactory.h"
 #include "HelperDroneFactory.h"
-#include "Disease.h"
 #include "Human.h"
 #include "HumanFactory.h"
 #include "LeaderDroneFactory.h"
@@ -49,8 +48,8 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
   if (entity["type"].toString() == "\"LeaderDrone\"") {
     if (myNewEntity) {
       LeaderDrone* curr = dynamic_cast<LeaderDrone*>(
-        dynamic_cast<DroneColorDecorator*>(myNewEntity)->getOriginal());
-        curr->addAllHelpers(helpers);
+          dynamic_cast<DroneColorDecorator*>(myNewEntity)->getOriginal());
+      curr->addAllHelpers(helpers);
       leaders.push_back(curr);
       std::cerr << "[DEBUG] myNewEntity actual type: "
                 << typeid(*myNewEntity).name() << std::endl;
@@ -61,18 +60,20 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
 
   // Used ChatGPT to figure dynamic cast solution to a type issue
   if (entity["type"].toString() == "\"HelperDrone\"") {
-    DroneColorDecorator* helper = dynamic_cast<DroneColorDecorator*>(myNewEntity);
+    DroneColorDecorator* helper =
+        dynamic_cast<DroneColorDecorator*>(myNewEntity);
     if (!helper) {
-        std::cerr << "[ERROR] dynamic_cast to DroneColorDecorator failed!" << std::endl;
+      std::cerr << "[ERROR] dynamic_cast to DroneColorDecorator failed!"
+                << std::endl;
     } else if (leaders.empty()) {
-        std::cerr << "[ERROR] Tried to add helper, but leaders list is empty!" << std::endl;
+      std::cerr << "[ERROR] Tried to add helper, but leaders list is empty!"
+                << std::endl;
     } else {
-        for (auto& leader : leaders) {
-            leader->addHelper(helper);
-        }
+      for (auto& leader : leaders) {
+        leader->addHelper(helper);
+      }
     }
   }
-
 
   return myNewEntity;
 }
