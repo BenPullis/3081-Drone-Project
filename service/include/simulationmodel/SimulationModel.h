@@ -13,6 +13,7 @@
 #include "IObserver.h"
 #include "LeaderDrone.h"
 #include "Robot.h"
+#include "DroneDecorator.h"
 
 class LeaderDrone;
 
@@ -107,7 +108,7 @@ class SimulationModel : public IObserver {
   const routing::Graph* graph = nullptr;
   CompositeFactory entityFactory;
   std::vector<DroneColorDecorator*> helpers;
-  std::vector<DroneColorDecorator*> leaders;
+  std::vector<DroneDecorator*> leaders;
 };
 
 #endif

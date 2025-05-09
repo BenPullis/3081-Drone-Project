@@ -6,6 +6,7 @@
 
 #include "Drone.h"
 #include "DroneColorDecorator.h"
+#include "DroneWindDecorator.h"
 #include "HelperDrone.h"
 #include "IPublisher.h"
 #include "Package.h"
@@ -42,7 +43,7 @@ class LeaderDrone : public Drone {
    * @param std::vector<DroneColorDecorator*> drones which is all current helpers at the time of creation
    */
   void addAllHelpers(std::vector<DroneColorDecorator*> drones);
-  
+
   /**
    * @brief Allows the LeaderDrones waitingforhelper bool to be changed
    * @param bool set which is the new bool value

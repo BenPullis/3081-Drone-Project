@@ -48,13 +48,8 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
   // Used ChatGPT to figure out string comparison for both of these ifs
   if (entity["type"].toString() == "\"LeaderDrone\"") {
     if (myNewEntity) {
-      std::cout << "yo1" << std::endl;
       DroneColorDecorator* curr = dynamic_cast<DroneColorDecorator*>(myNewEntity);
-      std::cout << "yo2" << std::endl;
-      // leaders.push_back(curr);
-      std::cout << "yo3" << std::endl;
-      std::cerr << "[DEBUG] myNewEntity actual type: "
-                << typeid(*myNewEntity).name() << std::endl;
+      leaders.push_back(curr);
     } else {
       std::cerr << "[DEBUG] myNewEntity is null!" << std::endl;
     }
@@ -69,9 +64,19 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
     } else if (leaders.empty()) {
         std::cerr << "[ERROR] Tried to add helper, but leaders list is empty!" << std::endl;
     } else {
-      // for (auto& leader : leaders) {
-      //   leader->addHelper(helper);
-      // }
+      // prompted ChatGPT asking for help to call "addHelper" on types of "DroneDecorator*"
+      for (auto* dec : leaders) {
+        IEntity* obj = dec;
+        // walk down the decorator chain until we hit the LeaderDrone
+        while (auto* deco = dynamic_cast<DroneDecorator*>(obj)) {
+            obj = deco->getOriginal();               // whatever accessor you have
+        }
+        if (auto* ld = dynamic_cast<LeaderDrone*>(obj)) {
+            ld->addHelper(helper);
+        } else {
+            std::cerr << "LeaderDrone not found under this decorator stack\n";
+        }
+    }
     }
   }
 
