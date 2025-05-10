@@ -1,7 +1,9 @@
 #include "DroneColorDecorator.h"
 
 DroneColorDecorator::DroneColorDecorator(Drone* d, double h, double s, double l)
-    : DroneDecorator(d), hue(h), saturation(s), light(l) {}
+    : DroneDecorator(d), hue(h), saturation(s), light(l) {
+  original = d;
+}
 
 std::string DroneColorDecorator::getColor() const {
   auto sub_color = sub->getColor();

@@ -34,13 +34,13 @@ class LeaderDrone : public Drone {
 
   /**
    * @brief Adds a HelperDrone to the leaders list of helpers
-   * @param DroneColorDecorator* helper which is the wrapped HelperDrone
+   * @param DroneDecorator* helper which is the wrapped HelperDrone
    */
   void addHelper(DroneDecorator* helper);
 
   /**
    * @brief sets the helpers to a vector of HelperDrones
-   * @param std::vector<DroneColorDecorator*> drones which is all current
+   * @param std::vector<DroneDecorator*> drones which is all current
    * helpers at the time of creation
    */
   void addAllHelpers(std::vector<DroneDecorator*> drones);
