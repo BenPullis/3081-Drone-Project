@@ -119,7 +119,7 @@ Jira Board:
 UML:
 
     Ben Pullis - Multi-Drone:
-<img src="https://i.imgur.com/EqnrhT9.png" width="800" alt="Multi-Drone UML">
+<img src="https://i.imgur.com/qBs0yQI.png" width="800" alt="Multi-Drone UML">
     
     Divyesh Thirukonda - Plague:
     
