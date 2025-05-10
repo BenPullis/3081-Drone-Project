@@ -52,12 +52,13 @@ Requirements:
         If the human moves out of the disease-spreading radius of another human’s disease, then the system shall unsubscribe the human from the publishing human
 
     Adam Douiri - Severe Weather:
-        The severe weather system shall have a single, continuously updating weather system (singleton), which has a 0.1% chance of introducing or ending an adverse weather condition every 500 milliseconds.
-        The severe weather system shall monitor and update all drones in the simulation every 500 milliseconds based on the weather conditions.
-        The “durability” drone decorator shall keep track of the damage done to drones and adjust speed and durability of the drones over time.
-        When an adverse weather condition starts, the system will be notified that a weather event has started, and a durability decorator will be created to wrap each drone.
-        While there are adverse weather conditions the severe weather system shall progressively damage drones.
-        When the durability drone decorator has hit 0 durability, the drone shall fall to the ground and notify the system that the drone has failed due to adverse weather conditions.
+        The SevereWeatherSystem shall have a single, continuously updating weather system (singleton), which generates wind by sampling random noise from a normal distribution every second.
+        The DroneWindDecorator shall fetch the wind speed from the severe weather system every update tick.
+        The DroneWindDecorator shall decrease drone durability and speed by a factor that is proportional to the magnitude of the wind and effective time every update tick.
+        The DroneWindDecorator shall adjust the drone’s displacement by the windSpeed every update tick.
+        When a Drone of any type is created, the Factory shall wrap a DroneWindDecorator around it.
+        When the DroneWindDecorator has hit 0 durability, the drone shall notify the system that the drone has failed due to adverse weather conditions, and the drone will freeze and be made unavailable.
+        While the DroneWindDecorator’s durability is 0, the drone will no longer be able to move or take pick up trips.
 
     Owen Liu - Data collection:
         ...
