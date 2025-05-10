@@ -6,7 +6,7 @@ Team Names:
 
 
 Overview: 
-    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrones can assist in deliveries whenever a LeaderDrone is low on battery. [TODO Adam: describe your additions in one sentence] [TODO Owen: describe your additions in one sentence]
+    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrones can assist in deliveries whenever a LeaderDrone is low on battery. There is a wind system that applies wind to Drones in the air and does damage to the Drones until they are unusable. [TODO Owen: describe your additions in one sentence]
 
 
 Instructions:
@@ -17,7 +17,12 @@ Instructions:
         will run low on battery and need to recharge. At this point you will notice the 
         closest HelperDrone head to receive the package in a handoff and the LeaderDrone 
         will go and recharge at the charging station. 
-    [TODO Adam: describe your additions in one sentence]
+    Severe Weather:
+        You can see the effect in real time at the start of the simulation after spawning in a
+        Drone of any type (LeaderDrone, or HelperDrone). The Drone will have a wind effect on it,
+        and after a certain amount of time (based on the magnitude), the durability will hit 0. I
+        would recommend setting the simulation to maximum speed in order to see this entire cycle,
+        and see the effects of wind over long periods of time.
     [TODO Owen: describe your additions in one sentence]
     Plague:
         To see the effect in real time, add a bunch of humans to the simulation.
@@ -46,8 +51,13 @@ Requirements:
         When a human's sum of all disease's severities are greater than or equal to 10, the human shall die and be removed from the simulation.
         If the human moves out of the disease-spreading radius of another human’s disease, then the system shall unsubscribe the human from the publishing human
 
-    Adam Douir - Severe weather:
-        ...
+    Adam Douiri - Severe Weather:
+        The severe weather system shall have a single, continuously updating weather system (singleton), which has a 0.1% chance of introducing or ending an adverse weather condition every 500 milliseconds.
+        The severe weather system shall monitor and update all drones in the simulation every 500 milliseconds based on the weather conditions.
+        The “durability” drone decorator shall keep track of the damage done to drones and adjust speed and durability of the drones over time.
+        When an adverse weather condition starts, the system will be notified that a weather event has started, and a durability decorator will be created to wrap each drone.
+        While there are adverse weather conditions the severe weather system shall progressively damage drones.
+        When the durability drone decorator has hit 0 durability, the drone shall fall to the ground and notify the system that the drone has failed due to adverse weather conditions.
 
     Owen Liu - Data collection:
         ...
@@ -89,7 +99,7 @@ Design:
         Let each human decide its own acceptance logic at runtime, so we can swap behaviors like “take it as is”, “mutate it”, or “reject it.” I used the strategy pattern because of extensibility. It follows the Open/Closed principle because we can add new behaviours by adding another strategy instead of accidentally overcomplicating Human.
         Each Human owns an IReactionStrategy* reactionStrategy; and in onDiseaseReceived, we can simply choose a new random strategy, and use that strategy's processDisease() function.
             
-    Adam Douir - Severe weather:
+    Adam Douiri - Severe Weather:
         ...
 
 
@@ -114,7 +124,7 @@ UML:
     
 <img src="https://i.imgur.com/ddK1NHA.png" width="800" alt="Plague UML">
 
-    Adam Douir - Severe weather:
+    Adam Douiri - Severe Weather:
         (Add link to personal UML)...
 
     Owen Liu - Data collection:

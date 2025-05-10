@@ -9,6 +9,7 @@ void DroneWindDecorator::setDurability(double dur) { durability = dur; }
 
 void DroneWindDecorator::handleDeath() {
   hasDiedYet = true;
+  sub->available = false;
   std::string message =
       sub->getName() + "'s durability fell to 0 and is no longer functional. ";
   sub->notifyObservers(message);

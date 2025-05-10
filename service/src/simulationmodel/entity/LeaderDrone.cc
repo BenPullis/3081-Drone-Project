@@ -109,7 +109,11 @@ HelperDrone* LeaderDrone::findNearestHelper() {
   double distance = std::numeric_limits<double>::infinity();
   double currDist = 0.0;
   for (auto& helper : helpers) {
-    HelperDrone* origin = dynamic_cast<HelperDrone*>(helper->getOriginal());
+    IEntity* obj = helper;
+    while (auto* deco = dynamic_cast<DroneDecorator*>(obj)) {
+      obj = deco->getOriginal();
+    }
+    HelperDrone* origin = dynamic_cast<HelperDrone*>(obj);
     currDist = this->getPosition().dist(origin->getPosition());
     if (currDist < distance && origin->available) {
       distance = currDist;
@@ -119,11 +123,11 @@ HelperDrone* LeaderDrone::findNearestHelper() {
   return curr;
 }
 
-void LeaderDrone::addHelper(DroneColorDecorator* helper) {
+void LeaderDrone::addHelper(DroneDecorator* helper) {
   helpers.push_back(helper);
 }
 
-void LeaderDrone::addAllHelpers(std::vector<DroneColorDecorator*> drones) {
+void LeaderDrone::addAllHelpers(std::vector<DroneDecorator*> drones) {
   helpers = drones;
 }
 

@@ -34,7 +34,7 @@ class DroneWindDecorator : public DroneDecorator {
    * @param d Drone object that will be wrapped.
    * @param dur Durability of the drone.
    */
-  DroneWindDecorator(Drone* d, double dur = 100.0);
+  DroneWindDecorator(Drone *d, double dur = 100.0);
 
   /**
    * @brief Returns durability.
@@ -58,6 +58,9 @@ class DroneWindDecorator : public DroneDecorator {
    */
   void update(double dt);
 
+  /**
+   * @brief Fetches the wrappee
+   */
   Drone *getOriginal();
 };
 

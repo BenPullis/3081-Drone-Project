@@ -1,10 +1,9 @@
 #include "SimulationModel.h"
 
-
 #include "ChargerFactory.h"
+#include "Disease.h"
 #include "HelicopterFactory.h"
 #include "HelperDroneFactory.h"
-#include "Disease.h"
 #include "Human.h"
 #include "HumanFactory.h"
 #include "LeaderDroneFactory.h"
@@ -48,35 +47,37 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
   // Used ChatGPT to figure out string comparison for both of these ifs
   if (entity["type"].toString() == "\"LeaderDrone\"") {
     if (myNewEntity) {
-      DroneColorDecorator* curr = dynamic_cast<DroneColorDecorator*>(myNewEntity);
+      DroneDecorator* curr = dynamic_cast<DroneDecorator*>(myNewEntity);
       leaders.push_back(curr);
     } else {
       std::cerr << "[DEBUG] myNewEntity is null!" << std::endl;
     }
-
   }
 
   // Used ChatGPT to figure dynamic cast solution to a type issue
   if (entity["type"].toString() == "\"HelperDrone\"") {
-    DroneColorDecorator* helper = dynamic_cast<DroneColorDecorator*>(myNewEntity);
+    DroneDecorator* helper = dynamic_cast<DroneDecorator*>(myNewEntity);
     if (!helper) {
-        std::cerr << "[ERROR] dynamic_cast to DroneColorDecorator failed!" << std::endl;
+      std::cerr << "[ERROR] dynamic_cast to DroneColorDecorator failed!"
+                << std::endl;
     } else if (leaders.empty()) {
-        std::cerr << "[ERROR] Tried to add helper, but leaders list is empty!" << std::endl;
+      std::cerr << "[ERROR] Tried to add helper, but leaders list is empty!"
+                << std::endl;
     } else {
-      // prompted ChatGPT asking for help to call "addHelper" on types of "DroneDecorator*"
+      // prompted ChatGPT asking for help to call "addHelper" on types of
+      // "DroneDecorator*"
       for (auto* dec : leaders) {
         IEntity* obj = dec;
         // walk down the decorator chain until we hit the LeaderDrone
         while (auto* deco = dynamic_cast<DroneDecorator*>(obj)) {
-            obj = deco->getOriginal();               // whatever accessor you have
+          obj = deco->getOriginal();  // whatever accessor you have
         }
         if (auto* ld = dynamic_cast<LeaderDrone*>(obj)) {
-            ld->addHelper(helper);
+          ld->addHelper(helper);
         } else {
-            std::cerr << "LeaderDrone not found under this decorator stack\n";
+          std::cerr << "[ERROR] final type isn't LeaderDrone! " << std::endl;
         }
-    }
+      }
     }
   }
 

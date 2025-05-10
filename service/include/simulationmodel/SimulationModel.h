@@ -7,13 +7,13 @@
 
 #include "CompositeFactory.h"
 #include "Drone.h"
+#include "DroneDecorator.h"
 #include "Graph.h"
 #include "IController.h"
 #include "IEntity.h"
 #include "IObserver.h"
 #include "LeaderDrone.h"
 #include "Robot.h"
-#include "DroneDecorator.h"
 
 class LeaderDrone;
 
@@ -107,7 +107,7 @@ class SimulationModel : public IObserver {
   void removeFromSim(int id);
   const routing::Graph* graph = nullptr;
   CompositeFactory entityFactory;
-  std::vector<DroneColorDecorator*> helpers;
+  std::vector<DroneDecorator*> helpers;
   std::vector<DroneDecorator*> leaders;
 };
 
