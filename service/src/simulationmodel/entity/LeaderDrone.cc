@@ -123,6 +123,10 @@ void LeaderDrone::addHelper(DroneColorDecorator* helper) {
   helpers.push_back(helper);
 }
 
+void LeaderDrone::addAllHelpers(std::vector<DroneColorDecorator*> drones) {
+  helpers = drones;
+}
+
 void LeaderDrone::setWaiting(bool set) {
   waitingForHelper = set;
   package = nullptr;

@@ -38,6 +38,13 @@ class LeaderDrone : public Drone {
   void addHelper(DroneColorDecorator* helper);
 
   /**
+   * @brief sets the helpers to a vector of HelperDrones
+   * @param std::vector<DroneColorDecorator*> drones which is all current
+   * helpers at the time of creation
+   */
+  void addAllHelpers(std::vector<DroneColorDecorator*> drones);
+
+  /**
    * @brief Allows the LeaderDrones waitingforhelper bool to be changed
    * @param bool set which is the new bool value
    */

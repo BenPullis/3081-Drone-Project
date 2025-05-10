@@ -34,7 +34,7 @@
     "command": "CreateEntity",
     "params": {
       "type": "LeaderDrone",
-      "name": "LeaderDrone",
+      "name": "LeaderDrone-1",
       "mesh": "assets/model/drone.glb",
       "position": [498.292, 270, -228.623],
       "scale": [0.1, 0.1, 0.1],

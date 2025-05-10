@@ -106,7 +106,8 @@ class SimulationModel : public IObserver {
   void removeFromSim(int id);
   const routing::Graph* graph = nullptr;
   CompositeFactory entityFactory;
-  LeaderDrone* leader;
+  std::vector<DroneColorDecorator*> helpers;
+  std::vector<LeaderDrone*> leaders;
 };
 
 #endif
