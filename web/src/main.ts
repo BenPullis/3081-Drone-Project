@@ -81,7 +81,7 @@ addDroneButton.onclick = () => {
   droneID += 1;
 };
 
-let leaderDroneID = 2;
+let leaderDroneID = 1;
 addLeaderDroneButton.onclick = () => {
   var position = [498.292, 270, -228.623];
   position[0] = randFloat(-1400, 1500);
