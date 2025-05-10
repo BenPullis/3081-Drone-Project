@@ -9,7 +9,7 @@
  * generating the astar path that the drone will take.
  */
 class AstarStrategy : public PathStrategy {
-public:
+ public:
   /**
    * @brief Construct a new Astar Strategy object
    *
@@ -20,4 +20,4 @@ public:
   AstarStrategy(Vector3 position, Vector3 destination,
                 const routing::Graph *graph);
 };
-#endif // ASTAR_STRATEGY_H_
+#endif  // ASTAR_STRATEGY_H_

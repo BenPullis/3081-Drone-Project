@@ -11,7 +11,7 @@
  * pattern
  */
 class IPublisher {
-public:
+ public:
   /**
    * @brief adds an Observer to the observers vector
    *
@@ -31,8 +31,8 @@ public:
    */
   virtual void notifyObservers(const std::string &message);
 
-protected:
+ protected:
   std::set<const IObserver *> observers;
 };
 
-#endif // IPUBLISHER_H_
+#endif  // IPUBLISHER_H_

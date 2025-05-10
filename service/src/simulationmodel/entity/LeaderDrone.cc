@@ -20,14 +20,14 @@ void LeaderDrone::update(double dt) {
 
     if (available) {
       toCharger = new BeelineStrategy(getPosition(), chargerPosition);
-      message = "LeaderDrone low battery - Heading to recharge";
+      message = this->getName() + " low battery - Heading to recharge";
       this->model->notify(message);
       return;
     } else {
       HelperDrone* nearestHelper = findNearestHelper();
 
       if (nearestHelper) {
-        message = "LeaderDrone low battery - Help request sent to " +
+        message = this->getName() + " low battery - Help request sent to " +
                   nearestHelper->getName();
         this->model->notify(message);
         if (!pickedUp) {

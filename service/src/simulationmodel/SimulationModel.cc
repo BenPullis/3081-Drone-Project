@@ -46,11 +46,28 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
 
   // Used ChatGPT to figure out string comparison for both of these ifs
   if (entity["type"].toString() == "\"LeaderDrone\"") {
-    if (myNewEntity) {
-      DroneDecorator* curr = dynamic_cast<DroneDecorator*>(myNewEntity);
-      leaders.push_back(curr);
+    IEntity* base = myNewEntity;
+
+    while (DroneDecorator* wrapper = dynamic_cast<DroneDecorator*>(base)) {
+      base = wrapper->getOriginal();
+    }
+
+    LeaderDrone* leader = dynamic_cast<LeaderDrone*>(base);
+    if (leader) {
+      leader->addAllHelpers(helpers);
+
+      DroneDecorator* decorated = dynamic_cast<DroneDecorator*>(myNewEntity);
+      if (decorated) {
+        leaders.push_back(decorated);
+      } else {
+        std::cerr
+            << "[WARNING] Could not push to leaders — not a DroneDecorator."
+            << std::endl;
+      }
+
     } else {
-      std::cerr << "[DEBUG] myNewEntity is null!" << std::endl;
+      std::cerr << "[ERROR] Unwrapped entity is not a LeaderDrone!"
+                << std::endl;
     }
   }
 
@@ -60,10 +77,8 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
     if (!helper) {
       std::cerr << "[ERROR] dynamic_cast to DroneColorDecorator failed!"
                 << std::endl;
-    } else if (leaders.empty()) {
-      std::cerr << "[ERROR] Tried to add helper, but leaders list is empty!"
-                << std::endl;
     } else {
+      helpers.push_back(helper);
       // prompted ChatGPT asking for help to call "addHelper" on types of
       // "DroneDecorator*"
       for (auto* dec : leaders) {

@@ -7,7 +7,7 @@
  * @brief This class sets up the observer pattern for notification
  */
 class IObserver {
-public:
+ public:
   /**
    * @brief notifies all observers
    *
@@ -16,4 +16,4 @@ public:
   virtual void notify(const std::string &message) const = 0;
 };
 
-#endif // IOBSERVER_H_
+#endif  // IOBSERVER_H_
