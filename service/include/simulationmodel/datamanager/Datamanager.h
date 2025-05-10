@@ -28,11 +28,11 @@ public:
 
   void addToDataManager(IEntity *entity);
 
-  struct DataEntry {
-    std::vector<Vector3> onion_position;
-    std::chrono::system_clock::time_point timestamp;
-    std::string name;
-  };
+  // struct DataEntry {
+  //   std::vector<Vector3> onion_position;
+  //   std::chrono::system_clock::time_point timestamp;
+  //   std::string name;
+  // };
 
   static DataManager *getInstance();
 
