@@ -5,7 +5,7 @@ IEntity* HelperDroneFactory::createEntity(const JsonObject& entity) {
   if (type.compare("HelperDrone") == 0) {
     std::cout << "HelperDrone Created" << std::endl;
     return new DroneWindDecorator(
-        new DroneColorDecorator(new HelperDrone(entity), 0, 0, 100), 100);
+        new DroneColorDecorator(new HelperDrone(entity), 0, 0, 100), 100, 100);
   }
   return nullptr;
 }

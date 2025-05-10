@@ -22,6 +22,8 @@ class DroneWindDecorator : public DroneDecorator {
  private:
   double durability = 100.0;
 
+  double speed = 100.0;
+
   std::vector<double> windSpeed = {0.0, 0.0, 0.0};
 
   bool hasDiedYet = false;
@@ -30,11 +32,12 @@ class DroneWindDecorator : public DroneDecorator {
 
  public:
   /**
-   * @brief Constructor setting the wrappee and the durability.
+   * @brief Constructor setting the wrappee, the durability, and the speed.
    * @param d Drone object that will be wrapped.
    * @param dur Durability of the drone.
+   * @param spd Speed of the drone.
    */
-  DroneWindDecorator(Drone *d, double dur = 100.0);
+  DroneWindDecorator(Drone *d, double dur = 100.0, double spd = 100.0);
 
   /**
    * @brief Returns durability.
@@ -54,7 +57,7 @@ class DroneWindDecorator : public DroneDecorator {
 
   /**
    * @brief Fetches the windSpeed from the SevereWeatherSystem, uses its
-   * magnitude to deal damage and updates position based on windSpeed.
+   * magnitude to deal damage and updates speed and position based on windSpeed.
    */
   void update(double dt);
 
