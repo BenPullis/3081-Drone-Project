@@ -5,6 +5,7 @@
 
 #include "Drone.h"
 #include "DroneColorDecorator.h"
+#include "DroneWindDecorator.h"
 #include "HelperDrone.h"
 #include "IEntityFactory.h"
 

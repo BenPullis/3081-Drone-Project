@@ -13,6 +13,7 @@ class IEntityDecorator : public T {
     if (sub) delete sub;
   }
   virtual void linkModel(SimulationModel* model) {
+    this->model = model;
     return sub->linkModel(model);
   }
   virtual int getId() const { return sub->getId(); }

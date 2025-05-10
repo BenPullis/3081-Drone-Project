@@ -6,6 +6,7 @@
 
 #include "Drone.h"
 #include "DroneColorDecorator.h"
+#include "DroneWindDecorator.h"
 #include "HelperDrone.h"
 #include "IPublisher.h"
 #include "Package.h"
@@ -33,16 +34,16 @@ class LeaderDrone : public Drone {
 
   /**
    * @brief Adds a HelperDrone to the leaders list of helpers
-   * @param DroneColorDecorator* helper which is the wrapped HelperDrone
+   * @param DroneDecorator* helper which is the wrapped HelperDrone
    */
-  void addHelper(DroneColorDecorator* helper);
+  void addHelper(DroneDecorator* helper);
 
   /**
    * @brief sets the helpers to a vector of HelperDrones
-   * @param std::vector<DroneColorDecorator*> drones which is all current
+   * @param std::vector<DroneDecorator*> drones which is all current
    * helpers at the time of creation
    */
-  void addAllHelpers(std::vector<DroneColorDecorator*> drones);
+  void addAllHelpers(std::vector<DroneDecorator*> drones);
 
   /**
    * @brief Allows the LeaderDrones waitingforhelper bool to be changed
@@ -55,7 +56,7 @@ class LeaderDrone : public Drone {
 
   double battery;
 
-  std::vector<DroneColorDecorator*> helpers;
+  std::vector<DroneDecorator*> helpers;
 
   bool lowBatNoti = true;
 

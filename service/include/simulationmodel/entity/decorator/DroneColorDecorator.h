@@ -12,7 +12,6 @@ class DroneColorDecorator : public DroneDecorator {
   double light = 0;
   double distToPackage = -1;
   double distToDestination = -1;
-  Drone *original = nullptr;
 
  public:
   DroneColorDecorator(Drone *d, double = 0, double = 0, double = 0);
