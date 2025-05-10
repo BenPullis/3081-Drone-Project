@@ -14,6 +14,8 @@ void LeaderDrone::update(double dt) {
   battery -= ((available) ? 0.0075 : 0.0125);
 
   if (waitingForHelper) {
+    package->setPosition(position);
+    package->setDirection(direction);
     return;
   } else if ((battery - 20.0 < 0) && lowBatNoti) {
     lowBatNoti = false;
