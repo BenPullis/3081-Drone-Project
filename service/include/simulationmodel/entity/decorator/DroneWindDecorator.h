@@ -4,6 +4,7 @@
 #include "Drone.h"
 #include "DroneDecorator.h"
 #include "SevereWeatherSystem.h"
+#include "Package.h"
 #include "SimulationModel.h"
 
 // Manages the wind and durability of
@@ -27,8 +28,6 @@ class DroneWindDecorator : public DroneDecorator {
   std::vector<double> windSpeed = {0.0, 0.0, 0.0};
 
   bool hasDiedYet = false;
-
-  Drone *original = nullptr;
 
  public:
   /**
