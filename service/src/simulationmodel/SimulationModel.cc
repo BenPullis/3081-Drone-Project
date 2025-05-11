@@ -169,26 +169,20 @@ void SimulationModel::update(double dt) {
   if (datama == nullptr) {
     // Something must have corrupted, dont do anything
   } else {
-    if (datama->counter == -1 || datama->counter >= 10) {
-      for (auto &[id, entity] : entities) {
-        Datam *datama = Datam::getInstance();
-        if (datama == nullptr) {
-          // Something must have corrupted, dont do anything
-        } else {
-          if (datama->publicUpdate(entity) != 0) {
-            std::cout << "Datam publicUpdate failed" << std::endl;
-          }
-          // GPT: How can I call notify without screwing up all other functions?
-          notify("Entity updated: " + entity->getName());
-          std::cout << "Entity updated: " << entity->getName() << std::endl;
-        }
-      }
-      if (datama->counter == -1) {
-        datama->counter = 0;
-      } else if (datama->counter >= 10) {
-        datama->counter = 0;
+    for (auto &[id, entity] : entities) {
+      Datam *datama = Datam::getInstance();
+      if (datama == nullptr) {
+        // Something must have corrupted, dont do anything
       } else {
-        datama->counter++;
+        if (datama->publicUpdate(entity) != 0) {
+          std::cout << "Datam publicUpdate failed" << std::endl;
+        }
+        if (datama->counter >= 50000 || datama->counter == -1) {
+          notify("Successfully started outputting data to file!");
+          datama->counter = 0;
+        } else {
+          datama->counter++;
+        }
       }
     }
   }

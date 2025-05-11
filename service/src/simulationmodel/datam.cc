@@ -17,13 +17,10 @@ void Datam::update() {
     }
   }
 
-  std::cout << "Debug, made it through iteration and now trying to append\n";
   // now, update the dataEntries
   if (toggledOn) {
-    std::cout << "Debug, toggled on\n";
 
     appendToFile();
-    std::cout << "Debug, appended to file!\n";
     newDataEntries();
   }
 }
@@ -31,12 +28,11 @@ void Datam::update() {
 void Datam::appendToFile() {
   std::string filename = "ExportedCSV.csv";
   // if file exists but counter is -1, delete the file
-  if (counter == -1) {
-    std::remove(filename.c_str());
-    std::cout << "Debug, deleted the old log!\n";
-  }
+  // if (counter == -1) {
+  //   std::remove(filename.c_str());
+  //   std::cout << "Debug, deleted the old log!\n";
+  // }
   FILE *file = fopen(filename.c_str(), "a");
-  std::cout << "Debug, opened file!\n";
   if (!file) {
     std::cerr << "Couldnt' open file: " << filename << "\n";
     return;
@@ -49,13 +45,9 @@ void Datam::appendToFile() {
             entry.second.position.x, entry.second.position.y,
             entry.second.position.z,
             std::chrono::system_clock::to_time_t(entry.second.timestamp));
-    fflush(file);
   }
 
-  std::cout << "Debug, appened to file!\n";
-
   fclose(file);
-  std::cout << "Debug, closed the file!\n";
 }
 
 void Datam::newDataEntries() {
@@ -75,8 +67,6 @@ void Datam::newDataEntries() {
       std::cerr << "null entity wasnt deleted uh oh\n";
     }
   }
-
-  std::cout << "Debug: All data entries updated with new data.\n";
 }
 
 Datam *Datam::getInstance() {
@@ -89,12 +79,9 @@ Datam *Datam::getInstance() {
 
 // adapted code from WeatherSystem
 void Datam::updateLoop() {
-  std::cout << "Debug: in updateloop\n";
   while (running) {
-    std::cout << "Debug: running works, before update\n";
     update();
-    std::cout << "Debug: update done!!\n";
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::this_thread::sleep_for(std::chrono::seconds(10));
   }
 }
 
@@ -113,37 +100,22 @@ Datam::~Datam() {
 }
 
 int Datam::publicUpdate(IEntity *entity) {
-  std::cout << "Debug: Datam publicUpdate called and is inside\n";
   if (!entity) {
     std::cerr << "this entity is null or doesnt make sense\n";
     return -1;
   }
   // add entity to the map dataEntries
-  std::cout << "Debug: made it past null\n";
   auto it = dataEntries.find(entity);
-  std::cout << "Debug: attempted to find it\n";
   if (it == dataEntries.end()) {
     entry newEntry;
-    std::cout << "Debug: new entry newEntry\n";
     newEntry.name = entity->getName();
-    std::cout << "Debug: got name\n";
     newEntry.position = entity->getPosition();
-    std::cout << "Debug: got position\n";
     newEntry.timestamp = std::chrono::system_clock::now();
-    std::cout << "Debug: got time\n";
     dataEntries[entity] = newEntry;
-    std::cout << "Debug: shoved it onto dataEntries\n";
-    std::cout << dataEntries[entity].name << "\n";
-    std::cout << dataEntries[entity].position.x << "\n";
-    std::cout << dataEntries[entity].position.y << "\n";
-    std::cout << dataEntries[entity].position.z << "\n";
     // continue;
   }
 
   // after adding, update all the data
-  std::cout << "Debug: updated everything\n";
-  // updateLoop();
-  std::cout << "Debug: update loop worked\n";
   return 0;
 }
 

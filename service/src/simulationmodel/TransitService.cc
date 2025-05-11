@@ -61,7 +61,7 @@ public:
       model.injectDisease(data);
     } else if (cmd == "writeStats") {
       Datam::getInstance()->toggleUpdate();
-      std::cout << "Toggled the data collection\n";
+      std::cout << "Toggled the data collection!\n";
     }
   }
 
