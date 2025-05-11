@@ -12,8 +12,13 @@ Overview:
 
 
 Instructions:
+    If running locally:
     Build: "make clean; make -j"
     Run: "make run"
+    If using Docker:
+    Fetch: docker pull devadamd/final_project
+    Build: docker build -t devadamd/final_project .
+    Run: run "docker run --rm -it -p hostport:containerport devadamd/final_project", where hostport and containerport are the ports you want to run the simulation on (recommended that both are 8081).
     Multi-Drone:
         Add a few HelperDrones and schedule some deliveries, after some time the LeaderDrone 
         will run low on battery and need to recharge. At this point you will notice the 
