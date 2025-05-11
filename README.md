@@ -83,7 +83,6 @@ Requirements:
     	The custom struct shall contain a position vector and a string name.
     	If the user toggles by clicking the toggle button, then the Object will not export until toggled again.
 
-        ...
 
 
 Design:
@@ -142,7 +141,6 @@ Design:
     	I did implement a design where exporting/managing file data was in a single object, but this was purposefully done in order to make the point of my Data collection manager clearer. Although this possibly violated a design principle, it decreased code smell for future extensions to work off of it.
         In the code, the method publicUpdate() was linked to SimulationModel's update function,as the SimulationModel itself already provides a vector of Entities that I could start keeping track in my map. publicUpdate() updates the Manager's Map with new data to be exported. After that, Data Manager's internal update() itself calls separate methods for appending to files and clearing dead Entities to be untracked.
 
-        ...
 
 
 Sprint retrospective:
