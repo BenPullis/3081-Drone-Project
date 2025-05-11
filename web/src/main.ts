@@ -18,6 +18,7 @@ const container = $("#scene-container")[0];
 const simSpeedSlider = $("#sim-speed");
 const stopSimulationButton = $("#stop-simulation")[0];
 const addHumanButton = $("#add-human")[0];
+const writeStatsButton = $("#write-stats")[0];
 const addDroneButton = $("#add-drone")[0];
 const addLeaderDroneButton = $("#add-leaderdrone")[0];
 const deliveryPopup = $("#delivery-popup");
