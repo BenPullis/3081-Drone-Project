@@ -17,9 +17,13 @@ void Datam::update() {
     }
   }
 
+  std::cout << "Debug, made it through iteration and now trying to append\n";
   // now, update the dataEntries
   if (toggledOn) {
+    std::cout << "Debug, toggled on\n";
+    
     appendToFile();
+    std::cout << "Debug, appended to file!\n";
     newDataEntries();
   }
 }
@@ -27,6 +31,7 @@ void Datam::update() {
 void Datam::appendToFile() {
   std::string filename = "ExportedCSV.csv";
   FILE *file = fopen(filename.c_str(), "a");
+  std::cout << "Debug, opened file!\n";
   if (!file) {
     std::cerr << "Couldnt' open file: " << filename << "\n";
     return;
@@ -39,6 +44,8 @@ void Datam::appendToFile() {
             entry.second.position.z,
             std::chrono::system_clock::to_time_t(entry.second.timestamp));
   }
+
+  std::cout << "Debug, appened to file!\n";
 
   fclose(file);
 }
@@ -127,7 +134,7 @@ int Datam::publicUpdate(IEntity *entity) {
 
   // after adding, update all the data
   std::cout << "Debug: updated everything\n";
-  updateLoop();
+  // updateLoop();
   std::cout << "Debug: update loop worked\n";
   return 0;
 }

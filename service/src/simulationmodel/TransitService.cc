@@ -1,22 +1,23 @@
-#include <chrono>  // NOLINT [build/c++11]
+#include <chrono> // NOLINT [build/c++11]
 #include <map>
 
 #include "OBJParser.h"
 #include "SimulationModel.h"
 #include "WebServer.h"
+#include "datam.h"
 
 //--------------------  Controller ----------------------------
 bool stopped = false;
 /// A Transit Service that communicates with a web page through web sockets.  It
 /// also acts as the controller in the model view controller pattern.
 class TransitService : public JsonSession, public IController {
- public:
+public:
   TransitService()
       : model(*this), start(std::chrono::system_clock::now()), time(0.0) {}
 
   /// Handles specific commands from the web server
-  void receiveCommand(const std::string& cmd, const JsonObject& data,
-                      JsonObject& returnValue) {
+  void receiveCommand(const std::string &cmd, const JsonObject &data,
+                      JsonObject &returnValue) {
     // std::cout << cmd << ": " << data << std::endl;
     if (cmd == "CreateEntity") {
       model.createEntity(data);
@@ -49,7 +50,7 @@ class TransitService : public JsonSession, public IController {
         model.update(delta);
       }
 
-      for (auto& [id, entity] : updateEntites) {
+      for (auto &[id, entity] : updateEntites) {
         sendEntity("UpdateEntity", *entity);
       }
     } else if (cmd == "stopSimulation") {
@@ -58,10 +59,13 @@ class TransitService : public JsonSession, public IController {
       model.stop();
     } else if (cmd == "InjectDisease") {
       model.injectDisease(data);
+    } else if (cmd == "writeStats") {
+      Datam::getInstance()->toggleUpdate();
+      std::cout << "Toggled the data collection\n";
     }
   }
 
-  void sendEntity(const std::string& event, const IEntity& entity,
+  void sendEntity(const std::string &event, const IEntity &entity,
                   bool includeDetails = true) {
     // JsonObject details = entity.GetDetails();
     JsonObject details;
@@ -76,19 +80,20 @@ class TransitService : public JsonSession, public IController {
     details["pos"] = pos;
     details["dir"] = dir;
     std::string col_ = entity.getColor();
-    if (col_ != "") details["color"] = col_;
+    if (col_ != "")
+      details["color"] = col_;
     sendEventToView(event, details);
   }
 
-  void addEntity(const IEntity& entity) {
+  void addEntity(const IEntity &entity) {
     sendEntity("AddEntity", entity, true);
   }
 
-  void updateEntity(const IEntity& entity) {
+  void updateEntity(const IEntity &entity) {
     updateEntites[entity.getId()] = &entity;
   }
 
-  void removeEntity(const IEntity& entity) {
+  void removeEntity(const IEntity &entity) {
     JsonObject details;
     details["id"] = entity.getId();
     updateEntites.erase(entity.getId());
@@ -96,14 +101,14 @@ class TransitService : public JsonSession, public IController {
   }
 
   /// Allows messages to be passed back to the view
-  void sendEventToView(const std::string& event, const JsonObject& details) {
+  void sendEventToView(const std::string &event, const JsonObject &details) {
     JsonObject eventData;
     eventData["event"] = event;
     eventData["details"] = details;
     sendMessage(eventData.toString());
   }
 
- private:
+private:
   // Simulation Model
   SimulationModel model;
   // Used for tracking time since last update
@@ -111,11 +116,11 @@ class TransitService : public JsonSession, public IController {
   // The total time the server has been running.
   double time;
   // Current entities to update
-  std::map<int, const IEntity*> updateEntites;
+  std::map<int, const IEntity *> updateEntites;
 };
 
 /// The main program that handles starting the web sockets service.
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   if (argc > 1) {
     int port = std::atoi(argv[1]);
     std::string webDir = std::string(argv[2]);
