@@ -24,6 +24,9 @@ class DroneColorDecorator : public DroneDecorator {
   /**
    * @brief Constructs a DroneColorDecorator wrapping a given Drone instance.
    * @param drone A pointer to the Drone instance to be decorated.
+   * @param h Hue
+   * @param s Saturation
+   * @param l Lightness
    */
   DroneColorDecorator(Drone *d, double = 0, double = 0, double = 0);
 
@@ -47,6 +50,9 @@ class DroneColorDecorator : public DroneDecorator {
    */
   void update(double dt);
 
+  /**
+   * @brief Fetches the wrappee
+   */
   Drone *getOriginal();
 };
 
