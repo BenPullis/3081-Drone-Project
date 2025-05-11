@@ -6,11 +6,11 @@
 
 class ExportCSV {
 public:
-  void Update(const std::vector<std::string> &data,
-              const std::string &filename) {
+  void ExportCSV(const std::vector<std::string> &dataEntries) {
+    // ExportedCSV.csv
     std::ofstream file(filename);
     if (!file.is_open()) {
-      throw std::runtime_error("Unable to open file: " + filename);
+      std::cerr << "Couldnt' open file: "
     }
 
     for (const auto &line : data) {
