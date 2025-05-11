@@ -1,9 +1,10 @@
-#include "Ientity.h"
+#include "IEntity.h"
 #include "math/vector3.h"
 #include <atomic>
 #include <chrono>
 #include <cstdlib>
 #include <iostream>
+#include <map>
 #include <random>
 #include <thread>
 
@@ -38,21 +39,24 @@ private:
 
   /**
    * @brief Updates every 5 seconds
+   * @param entity the entity to be updated
    */
   void updateLoop();
 
   struct entry {
     std::string name;
-    vector3 position;
+    Vector3 position;
     std::chrono::system_clock::time_point timestamp;
-  }
+  };
 
-  public :
-      /**
-       * @brief Overriding copy constructor to prevent creation of multiple
-       * Singletons.
-       */
-      Datam(Datam &other) = delete;
+  int toggledOn = 0;
+
+public:
+  /**
+   * @brief Overriding copy constructor to prevent creation of multiple
+   * Singletons.
+   */
+  Datam(Datam &other) = delete;
 
   /**
    * @brief Overriding assignment constructor to prevent creation of multiple
@@ -70,5 +74,10 @@ private:
    */
   ~Datam();
 
+  int publicUpdate(IEntity *entity);
   // std::vector<double> windSpeed = {0.0, 0.0, 0.0};
+
+  void toggleUpdate();
+
+  std::map<IEntity *, entry> dataEntries;
 };

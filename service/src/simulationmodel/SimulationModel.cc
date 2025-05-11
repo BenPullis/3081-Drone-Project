@@ -1,17 +1,16 @@
 #include "SimulationModel.h"
 
-
 #include "ChargerFactory.h"
+#include "Disease.h"
 #include "HelicopterFactory.h"
 #include "HelperDroneFactory.h"
-#include "Disease.h"
 #include "Human.h"
 #include "HumanFactory.h"
 #include "LeaderDroneFactory.h"
 #include "PackageFactory.h"
 #include "RobotFactory.h"
 
-SimulationModel::SimulationModel(IController& controller)
+SimulationModel::SimulationModel(IController &controller)
     : controller(controller) {
   entityFactory.addFactory(new LeaderDroneFactory());
   entityFactory.addFactory(new HelperDroneFactory());
@@ -24,18 +23,18 @@ SimulationModel::SimulationModel(IController& controller)
 
 SimulationModel::~SimulationModel() {
   // Delete dynamically allocated variables
-  for (auto& [id, entity] : entities) {
+  for (auto &[id, entity] : entities) {
     delete entity;
   }
   delete graph;
 }
 
-IEntity* SimulationModel::createEntity(const JsonObject& entity) {
+IEntity *SimulationModel::createEntity(const JsonObject &entity) {
   std::string name = entity["name"];
   JsonArray position = entity["position"];
   std::cout << name << ": " << position << std::endl;
 
-  IEntity* myNewEntity = nullptr;
+  IEntity *myNewEntity = nullptr;
   if (myNewEntity = entityFactory.createEntity(entity)) {
     // Call AddEntity to add it to the view
     myNewEntity->linkModel(this);
@@ -54,8 +53,8 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
       std::cerr << "[DEBUG] myNewEntity is null!" << std::endl;
     }
 
-    leader = dynamic_cast<LeaderDrone*>(
-        dynamic_cast<DroneColorDecorator*>(myNewEntity)->getOriginal());
+    leader = dynamic_cast<LeaderDrone *>(
+        dynamic_cast<DroneColorDecorator *>(myNewEntity)->getOriginal());
 
     if (!leader) {
       std::cerr << "[ERROR] dynamic_cast to LeaderDrone failed!" << std::endl;
@@ -70,8 +69,8 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
       std::cerr << "[ERROR] Tried to add helper, but leader is null!"
                 << std::endl;
     } else {
-      DroneColorDecorator* helper =
-          dynamic_cast<DroneColorDecorator*>(myNewEntity);
+      DroneColorDecorator *helper =
+          dynamic_cast<DroneColorDecorator *>(myNewEntity);
       if (helper) {
         leader->addHelper(helper);
       } else {
@@ -87,17 +86,17 @@ IEntity* SimulationModel::createEntity(const JsonObject& entity) {
 void SimulationModel::removeEntity(int id) { removed.insert(id); }
 
 /// Schedules a Delivery for an object in the scene
-void SimulationModel::scheduleTrip(const JsonObject& details) {
+void SimulationModel::scheduleTrip(const JsonObject &details) {
   std::string name = details["name"];
   JsonArray start = details["start"];
   JsonArray end = details["end"];
   std::cout << name << ": " << start << " --> " << end << std::endl;
 
-  Robot* receiver = nullptr;
+  Robot *receiver = nullptr;
 
-  for (auto& [id, entity] : entities) {
+  for (auto &[id, entity] : entities) {
     if (name == entity->getName()) {
-      if (Robot* r = dynamic_cast<Robot*>(entity)) {
+      if (Robot *r = dynamic_cast<Robot *>(entity)) {
         if (r->requestedDelivery) {
           receiver = r;
           break;
@@ -106,11 +105,11 @@ void SimulationModel::scheduleTrip(const JsonObject& details) {
     }
   }
 
-  Package* package = nullptr;
+  Package *package = nullptr;
 
-  for (auto& [id, entity] : entities) {
+  for (auto &[id, entity] : entities) {
     if (name + "_package" == entity->getName()) {
-      if (Package* p = dynamic_cast<Package*>(entity)) {
+      if (Package *p = dynamic_cast<Package *>(entity)) {
         if (p->requiresDelivery()) {
           package = p;
           break;
@@ -128,18 +127,25 @@ void SimulationModel::scheduleTrip(const JsonObject& details) {
   }
 }
 
-const routing::Graph* SimulationModel::getGraph() const { return graph; }
+const routing::Graph *SimulationModel::getGraph() const { return graph; }
 
-void SimulationModel::setGraph(const routing::Graph* graph) {
-  if (this->graph) delete this->graph;
+void SimulationModel::setGraph(const routing::Graph *graph) {
+  if (this->graph)
+    delete this->graph;
   this->graph = graph;
 }
 
 /// Updates the simulation
 void SimulationModel::update(double dt) {
-  for (auto& [id, entity] : entities) {
+  for (auto &[id, entity] : entities) {
     entity->update(dt);
     controller.updateEntity(*entity);
+    Datam *datam = Datam::getInstance();
+    // update with the entity (pointer to the entity)
+    if (datam->publicUpdate(entity) == -1) {
+      std::cout << "publicUpdate::datamanager wrong datam\n";
+    }
+    std::cout << "debug::datamanager\n";
   }
   for (int id : removed) {
     removeFromSim(id);
@@ -150,7 +156,7 @@ void SimulationModel::update(double dt) {
 void SimulationModel::stop(void) {}
 
 void SimulationModel::removeFromSim(int id) {
-  IEntity* entity = entities[id];
+  IEntity *entity = entities[id];
   if (entity) {
     for (auto i = scheduledDeliveries.begin(); i != scheduledDeliveries.end();
          ++i) {
@@ -165,22 +171,22 @@ void SimulationModel::removeFromSim(int id) {
   }
 }
 
-void SimulationModel::notify(const std::string& message) const {
+void SimulationModel::notify(const std::string &message) const {
   JsonObject details;
   details["message"] = message;
   this->controller.sendEventToView("Notification", details);
 }
 
-std::vector<IEntity*> SimulationModel::getEntities() const {
-  std::vector<IEntity*> entityList;
+std::vector<IEntity *> SimulationModel::getEntities() const {
+  std::vector<IEntity *> entityList;
   // copilot suggested this, this is exactly what I was going to do though
-  for (const auto& pair : entities) {
+  for (const auto &pair : entities) {
     entityList.push_back(pair.second);
   }
   return entityList;
 }
 
-void SimulationModel::injectDisease(const JsonObject& data) {
+void SimulationModel::injectDisease(const JsonObject &data) {
   // Chatgpt recommended I add this check. Prompt: what should I add to this
   // function and add error checking
   if (!data.contains("targetName") || !data.contains("disease")) {
@@ -199,9 +205,9 @@ void SimulationModel::injectDisease(const JsonObject& data) {
 
   Disease newDisease(name, duration, recoveryRate, severity);
 
-  for (IEntity* entity : getEntities()) {
+  for (IEntity *entity : getEntities()) {
     if (entity->getName() == targetName) {
-      Human* human = dynamic_cast<Human*>(entity);
+      Human *human = dynamic_cast<Human *>(entity);
       if (human) {
         human->onDiseaseReceived(newDisease);
         std::cout << "[injectDisease] Injected " << name << " into "

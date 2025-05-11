@@ -1,4 +1,4 @@
-#include "Datam.h"
+#include "datam.h"
 
 Datam::Datam() : running(true) {
   updateThread = std::thread(&Datam::updateLoop, this);
@@ -6,29 +6,26 @@ Datam::Datam() : running(true) {
 
 // Note. I tried to use POSIX syscalls for open and read, but rthat was painful
 // ill just use fopen whatevsies
+// this function implements business logic to export data to a CSV file
 void Datam::update() {
-  double sigma = 20.0;
-  // std::vector<double> deltaWind;
+  //   if (toggledOn) {
+  //     // open the file
+  //     FILE *file = fopen("ExportedCSV.csv", "a");
+  //     if (!file) {
+  //       std::cerr << "Couldnt' open file: ExportedCSV.csv\n";
+  //       return;
+  //     }
 
-  // referred to cppreference when making normal distribution, see line 1
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::normal_distribution<> d(0.0, sigma);
+  //     // write the data to the file
+  //     for (const auto &entry : dataEntries) {
+  //       fprintf(file, "%s,%f,%f,%f,%ld\n", entry.second.name.c_str(),
+  //               entry.second.position.x, entry.second.position.y,
+  //               entry.second.position.z,
+  //               std::chrono::system_clock::to_time_t(entry.second.timestamp));
+  //     }
 
-  // populates windSpeed[0] and windSpeed[2] (horizontal)
-  for (int i = 0; i < 3; i += 2) {
-    double sample = d(gen);
-    windSpeed[i] = windSpeed[i] * 0.8 + sample;
-  }
-
-  // ensuring the magnitude does not go over 200
-  double magnitudeHorizontal =
-      pow((pow(windSpeed[0], 2.0) + pow(windSpeed[2], 2.0)), 0.5);
-
-  if (magnitudeHorizontal > 200.0) {
-    windSpeed[0] = (windSpeed[0] / magnitudeHorizontal) * 200.0;
-    windSpeed[2] = (windSpeed[2] / magnitudeHorizontal) * 200.0;
-  }
+  //     fclose(file);
+  //   }
 }
 
 Datam *Datam::getInstance() {
@@ -42,14 +39,14 @@ Datam *Datam::getInstance() {
 // for the next two functions, c++ helped me use chrono/thread since i have
 // limited familiarity
 
-int Datam::updateLoop() {
+void Datam::updateLoop() {
   while (running) {
     update();
     std::this_thread::sleep_for(std::chrono::seconds(5));
   }
 }
 
-int Datam::stop() {
+void Datam::stop() {
   running = false;
   if (updateThread.joinable()) {
     updateThread.join();
@@ -62,5 +59,29 @@ Datam::~Datam() {
   stop();
   // no need to delete singleton or data, nothing declared on the heap
 }
+
+int Datam::publicUpdate(IEntity *entity) {
+  if (!entity) {
+    std::cerr << "this entity is null or doesnt make sense\n";
+    return -1;
+  }
+  // add entity to the map dataEntries
+  auto it = dataEntries.find(entity);
+  if (it == dataEntries.end()) {
+    entry newEntry;
+    newEntry.name = entity->getName();
+    newEntry.position = entity->getPosition();
+    newEntry.timestamp = std::chrono::system_clock::now();
+    dataEntries[entity] = newEntry;
+  }
+
+  // after adding, update all the data
+
+  updateLoop();
+
+  return 0;
+}
+
+void Datam::toggleUpdate() { toggledOn = !toggledOn; }
 
 Datam *Datam::instance = nullptr;

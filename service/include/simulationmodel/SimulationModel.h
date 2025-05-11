@@ -13,6 +13,7 @@
 #include "IObserver.h"
 #include "LeaderDrone.h"
 #include "Robot.h"
+#include "datam.h"
 
 class LeaderDrone;
 
@@ -25,11 +26,11 @@ class LeaderDrone;
  * communicate with the controller
  **/
 class SimulationModel : public IObserver {
- public:
+public:
   /**
    * @brief Default constructor that create the SimulationModel object
    **/
-  SimulationModel(IController& controller);
+  SimulationModel(IController &controller);
 
   /**
    * @brief Destructor
@@ -40,14 +41,14 @@ class SimulationModel : public IObserver {
    * @brief Set the Graph for the SimulationModel
    * @param graph Type Graph* contain the new graph for SimulationModel
    **/
-  void setGraph(const routing::Graph* graph);
+  void setGraph(const routing::Graph *graph);
 
   /**
    * @brief Creates a new simulation entity
    * @param entity Type JsonObject contain the entity's reference to decide
    *which entity to create
    **/
-  IEntity* createEntity(const JsonObject& entity);
+  IEntity *createEntity(const JsonObject &entity);
 
   /**
    * @brief Removes entity with given ID from the simulation
@@ -61,7 +62,7 @@ class SimulationModel : public IObserver {
    * @param detail Type JsonObject contain the entity's reference to schedule
    *the detail of the trip being scheduled
    **/
-  void scheduleTrip(const JsonObject& details);
+  void scheduleTrip(const JsonObject &details);
 
   /**
    * @brief Update the simulation
@@ -80,33 +81,33 @@ class SimulationModel : public IObserver {
    *
    * @returns Graph* graph pointer
    */
-  const routing::Graph* getGraph() const;
+  const routing::Graph *getGraph() const;
 
-  void notify(const std::string& message) const;
+  void notify(const std::string &message) const;
 
   /**
    * @brief Returns the entities in the simulation in a vector
    *
    * @return vector<IEntity*> vector of IEntity*
    */
-  std::vector<IEntity*> getEntities() const;
+  std::vector<IEntity *> getEntities() const;
 
   /**
    * @brief Injects a disease into the simulation
    * @param data Type JsonObject contain the disease data
    */
-  void injectDisease(const JsonObject& data);
+  void injectDisease(const JsonObject &data);
 
-  std::deque<Package*> scheduledDeliveries;
+  std::deque<Package *> scheduledDeliveries;
 
- protected:
-  IController& controller;
-  std::map<int, IEntity*> entities;
+protected:
+  IController &controller;
+  std::map<int, IEntity *> entities;
   std::set<int> removed;
   void removeFromSim(int id);
-  const routing::Graph* graph = nullptr;
+  const routing::Graph *graph = nullptr;
   CompositeFactory entityFactory;
-  LeaderDrone* leader;
+  LeaderDrone *leader;
 };
 
 #endif
