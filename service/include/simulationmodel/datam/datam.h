@@ -1,4 +1,5 @@
 #include "Ientity.h"
+#include "math/vector3.h"
 #include <atomic>
 #include <chrono>
 #include <cstdlib>
@@ -40,12 +41,18 @@ private:
    */
   void updateLoop();
 
-public:
-  /**
-   * @brief Overriding copy constructor to prevent creation of multiple
-   * Singletons.
-   */
-  Datam(Datam &other) = delete;
+  struct entry {
+    std::string name;
+    vector3 position;
+    std::chrono::system_clock::time_point timestamp;
+  }
+
+  public :
+      /**
+       * @brief Overriding copy constructor to prevent creation of multiple
+       * Singletons.
+       */
+      Datam(Datam &other) = delete;
 
   /**
    * @brief Overriding assignment constructor to prevent creation of multiple

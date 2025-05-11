@@ -33,7 +33,7 @@ void Datam::update() {
 
 Datam *Datam::getInstance() {
   if (instance == nullptr) {
-    instance = new SevereWeatherSystem();
+    instance = new Datam();
   }
 
   return instance;
@@ -60,6 +60,7 @@ int Datam::stop() {
 Datam::~Datam() {
   update();
   stop();
+  // no need to delete singleton or data, nothing declared on the heap
 }
 
-SevereWeatherSystem *SevereWeatherSystem::instance = nullptr;
+Datam *Datam::instance = nullptr;
