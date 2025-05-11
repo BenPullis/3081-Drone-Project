@@ -26,6 +26,7 @@ void Datam::update() {
 
   //     fclose(file);
   //   }
+  if (toggledOn)
 }
 
 Datam *Datam::getInstance() {
@@ -36,9 +37,7 @@ Datam *Datam::getInstance() {
   return instance;
 }
 
-// for the next two functions, c++ helped me use chrono/thread since i have
-// limited familiarity
-
+// adapted code from WeatherSystem
 void Datam::updateLoop() {
   while (running) {
     update();
