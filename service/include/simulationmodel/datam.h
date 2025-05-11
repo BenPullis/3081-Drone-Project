@@ -29,15 +29,18 @@ private:
   Datam();
 
   /**
-   * @brief updates the struct of data when called
+   * @brief updates and calls appendToFile and newDataEntries
    */
   void update();
 
   /**
-   * @brief Halts the updateLoop.
+   * @brief updates the map with new data!
    */
   void newDataEntries();
 
+  /**
+   * @brief Appends the data to the file
+   */
   void appendToFile();
 
   /**
@@ -46,11 +49,15 @@ private:
   void stop();
 
   /**
-   * @brief Updates every 5 seconds
+   * @brief Updates every 10 seconds
    * @param entity the entity to be updated
    */
   void updateLoop();
 
+  /**
+   * @brief Struct to hold the data for each entity. Timestamp, name, position
+   * from Vector3
+   */
   struct entry {
     std::string name;
     Vector3 position;

@@ -4,9 +4,9 @@ Datam::Datam() : running(true) {
   updateThread = std::thread(&Datam::updateLoop, this);
 }
 
-// Note. I tried to use POSIX syscalls for open and read, but rthat was painful
-// ill just use fopen whatevsies
-// this function implements business logic to export data to a CSV file
+// Note. Done using help of ChatGPT (prompt: what are some ways to open a file?)
+// and help from 4061 TAs, who rightfully said to use fopen instead of POSIX
+// open :D this function implements business logic to export data to a CSV file
 void Datam::update() {
 
   for (auto it = dataEntries.begin(); it != dataEntries.end();) {
