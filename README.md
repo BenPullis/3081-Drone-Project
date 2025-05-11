@@ -59,6 +59,7 @@ Requirements:
         When a Drone of any type is created, the Factory shall wrap a DroneWindDecorator around it.
         When the DroneWindDecorator has hit 0 durability, the drone shall notify the system that the drone has failed due to adverse weather conditions, and the drone will freeze and be made unavailable.
         While the DroneWindDecorator’s durability is 0, the drone will no longer be able to move or take pick up trips.
+        If a Drone hits 0 durability while delivering a package, then the package shall be readded to the delivery scheduler to be picked up by another Drone.
 
     Owen Liu - Data collection:
         ...
