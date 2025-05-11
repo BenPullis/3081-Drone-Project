@@ -126,7 +126,7 @@ UML:
 <img src="https://i.imgur.com/ddK1NHA.png" width="800" alt="Plague UML">
 
     Adam Douiri - Severe Weather:
-        (Add link to personal UML)...
+<img src="https://i.imgur.com/ew6yebu.png" width="800" alt="Severe Weather UML">
 
     Owen Liu - Data collection:
         (Add link to personal UML)...
