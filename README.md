@@ -8,7 +8,7 @@ Docker:
     https://hub.docker.com/r/devadamd/final_project
 
 Overview: 
-    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrones can assist in deliveries whenever a LeaderDrone is low on battery. There is a wind system that applies wind to Drones in the air and does damage to the Drones until they are unusable. [TODO Owen: describe your additions in one sentence]
+    This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrones can assist in deliveries whenever a LeaderDrone is low on battery. There is a wind system that applies wind to Drones in the air and does damage to the Drones until they are unusable. There is a Data Manager that keeps track of entities and exports information about it to a file.
 
 
 Instructions:
