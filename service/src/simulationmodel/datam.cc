@@ -21,7 +21,7 @@ void Datam::update() {
   // now, update the dataEntries
   if (toggledOn) {
     std::cout << "Debug, toggled on\n";
-    
+
     appendToFile();
     std::cout << "Debug, appended to file!\n";
     newDataEntries();
@@ -30,6 +30,11 @@ void Datam::update() {
 
 void Datam::appendToFile() {
   std::string filename = "ExportedCSV.csv";
+  // if file exists but counter is -1, delete the file
+  if (counter == -1) {
+    std::remove(filename.c_str());
+    std::cout << "Debug, deleted the old log!\n";
+  }
   FILE *file = fopen(filename.c_str(), "a");
   std::cout << "Debug, opened file!\n";
   if (!file) {
@@ -37,17 +42,20 @@ void Datam::appendToFile() {
     return;
   }
 
-  // write the data to the file
+  // write the data to the file. Help from ChatGPT and Stack Overflow on how to
+  // iterate through a map
   for (const auto &entry : dataEntries) {
     fprintf(file, "%s,%f,%f,%f,%ld\n", entry.second.name.c_str(),
             entry.second.position.x, entry.second.position.y,
             entry.second.position.z,
             std::chrono::system_clock::to_time_t(entry.second.timestamp));
+    fflush(file);
   }
 
   std::cout << "Debug, appened to file!\n";
 
   fclose(file);
+  std::cout << "Debug, closed the file!\n";
 }
 
 void Datam::newDataEntries() {

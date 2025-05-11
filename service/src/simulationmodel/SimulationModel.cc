@@ -155,9 +155,6 @@ void SimulationModel::setGraph(const routing::Graph *graph) {
 /// Updates the simulation
 void SimulationModel::update(double dt) {
 
-  std::cout
-      << "Debug: Datamanager in SimulationModel, this is the update function\n "
-      << std::endl;
   for (auto &[id, entity] : entities) {
     entity->update(dt);
     controller.updateEntity(*entity);
@@ -168,21 +165,32 @@ void SimulationModel::update(double dt) {
   removed.clear();
   // this is for data collection!!
 
-  std::cout
-      << "Debug: Datamanager in SimulationModel, right before everything\n "
-      << std::endl;
-  for (auto &[id, entity] : entities) {
-    Datam *datama = Datam::getInstance();
-    if (datama == nullptr) {
-      std::cout << "Datam is null,this is an error" << std::endl;
-    } else {
-      std::cout << "Datam is not null, this is good" << std::endl;
+  Datam *datama = Datam::getInstance();
+  if (datama == nullptr) {
+    // Something must have corrupted, dont do anything
+  } else {
+    if (datama->counter == -1 || datama->counter >= 10) {
+      for (auto &[id, entity] : entities) {
+        Datam *datama = Datam::getInstance();
+        if (datama == nullptr) {
+          // Something must have corrupted, dont do anything
+        } else {
+          if (datama->publicUpdate(entity) != 0) {
+            std::cout << "Datam publicUpdate failed" << std::endl;
+          }
+          // GPT: How can I call notify without screwing up all other functions?
+          notify("Entity updated: " + entity->getName());
+          std::cout << "Entity updated: " << entity->getName() << std::endl;
+        }
+      }
+      if (datama->counter == -1) {
+        datama->counter = 0;
+      } else if (datama->counter >= 10) {
+        datama->counter = 0;
+      } else {
+        datama->counter++;
+      }
     }
-    if (datama->publicUpdate(entity) != 0) {
-      std::cout << "Datam publicUpdate failed" << std::endl;
-    }
-    std::cout << "Debug: " << entity->getName()
-              << " updated.\n"; // this doesnt get called. whats going on?
   }
 }
 

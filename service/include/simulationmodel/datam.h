@@ -57,7 +57,7 @@ private:
     std::chrono::system_clock::time_point timestamp;
   };
 
-  int toggledOn = 0;
+  int toggledOn = 1;
 
 public:
   /**
@@ -93,6 +93,8 @@ public:
    *  @brief Frontend toggles if the datamanager updates or not
    */
   void toggleUpdate();
+
+  int counter = -1;
 
   std::map<IEntity *, entry> dataEntries;
 };
