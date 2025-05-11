@@ -101,12 +101,17 @@ Design:
         Let each human decide its own acceptance logic at runtime, so we can swap behaviors like “take it as is”, “mutate it”, or “reject it.” I used the strategy pattern because of extensibility. It follows the Open/Closed principle because we can add new behaviours by adding another strategy instead of accidentally overcomplicating Human.
         Each Human owns an IReactionStrategy* reactionStrategy; and in onDiseaseReceived, we can simply choose a new random strategy, and use that strategy's processDisease() function.
             
-    Adam Douiri - Severe 
-    **DECORATOR PATTERN**
+    Adam Douiri - Severe Weather:
+    
+        **SINGLETON PATTERN**
+        The SevereWeatherSystem class implements the Singleton Design Pattern. The reason for making the SevereWeatherSystem class a Singleton is that we want to have a singular wind gust for the entire simulation. In real life, wind gusts in that small of an area are not going to be in different directions depending on the area (at least high up in the air). 
+        This choice also helps protect the S of SOLID, since we totally could have implemented the wind generation in something like SimulationModel.cc. By using a Singleton, we adhere to the Single Responsibility Principle.
+        **DECORATOR PATTERN**
         The DroneWindDecorator class implements the Decorator Design Pattern. Overall, this design pattern proved to be beneficial in almost all SOLID principles. The first reason for using the Decorator pattern is primarily to adhere to the O of SOLID, and this was rather successful. The usage of the Decorator allowed me to implement my extension with very little changes to other classes. 
         When it came time to integrate my extension, the choice of a Decorator helped significantly with the L of SOLID. Had I directly implemented the extension to Drone.cc, it is very likely we would have ran into a lot more errors when integrating into Ben's Leader/Helper drone extension, which would have then inherited from an edited Drone.cc. Introducing a Decorator made integration quite smooth and avoided violating the L of SOLID.
         Another big benefit was that we avoided violating the S of SOLID. If I directly implemented my extension into Drone.cc, the Drone class simply would be doing too much. By making my own decorator, the responsibilities of the classes are clearly seperate. 
         I did consider that having only one decorator did not perfectly adhere to the Single Responsibility Principle, but after trying to make a second decorator I realized that would be an unwise design choice for two reasons. First, this would be likely to violate the O and L of SOLID, as this would create a more complex Decorator wrapping chain, requiring serious refactoring of existing classes. Second, this seemed like unneccessary bloat for the project, as the .cc file of the seperate Decorator was only a few lines long. As it stands DroneWindDecorator.cc is not long at all, and does have a single responsibility in managing the response to wind, so I believe I did my best with that.
+
 
 
     Owen Liu - Data collection:
