@@ -4,6 +4,8 @@ Team Number: 010-25
 Team Names: 
     Ben Pullis - pulli068, Divyesh Thirukonda - thiru063, Adam Douiri - douir002, Owen Liu - liu02753
 
+Docker:
+    https://hub.docker.com/r/devadamd/final_project
 
 Overview: 
     This project is a drone delivery simulation written primarily in C++. The user can interact with the simulation by adding a source and destination for the drone to deliver its package. To make the simulation more realistic and lively, we added entities such as a human, helicopter, and robots. There is also a notification panel with important information passed through it. With our latest additions, humans can get sick and spread their diseases with each other. HelperDrones can assist in deliveries whenever a LeaderDrone is low on battery. There is a wind system that applies wind to Drones in the air and does damage to the Drones until they are unusable. [TODO Owen: describe your additions in one sentence]
@@ -123,8 +125,10 @@ Sprint retrospective:
     The planning of this project went really well. We all knew what needed to be done for each extension. After the first sprint ended, we met up and brought some items from our backlog onto the second sprint. Communication was fluid with fast response times from every group member. We didn't have any major blockers. One thing that could be better for the Plague simulation is that spatial scanning is O(n^2), and it happens every frame. In the future, maybe we could have it update every second instead. For the Multi-Drone extension, something that could have been better was in the simulation model, I was having trouble with the type for myNewEntity whenever it was one of the drones so I had to do some funky dynamic casting to get everything to work smoothly and I feel like there is likely an easier way I could have done that. For the Severe Weather System, I would say something that could have definitely went better would be confirming my requirements earlier. There were a few requirements in the final project write-up that were rather ambiguous that I didn't get 100% confirmation on, that I ended up only asking about after my initial implementation. Luckily, they were not hard to implement at all, but I could totally have seen that being very stressful had I neglected some other, more integral requirement. I think what really went well for the Severe Weather System was integration. Ben and I really put thought into our integration well before we actually did it. We consulted Shonal about our integration in a timely manner giving us a lot of time to plan ahead.   [TODO All: add some things that didn't go well with your extension]
 
 
-Jira Board:
+Jira Sprint 1:
     (Add screenshots)...
+
+Jira Sprint 2:
 
 
 UML:
