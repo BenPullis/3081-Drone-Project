@@ -134,13 +134,13 @@ Design:
         Another big benefit was that we avoided violating the S of SOLID. If I directly implemented my extension into Drone.cc, the Drone class simply would be doing too much. By making my own decorator, the responsibilities of the classes are clearly seperate. 
         I did consider that having only one decorator did not perfectly adhere to the Single Responsibility Principle, but after trying to make a second decorator I realized that would be an unwise design choice for two reasons. First, this would be likely to violate the O and L of SOLID, as this would create a more complex Decorator wrapping chain, requiring serious refactoring of existing classes. Second, this seemed like unneccessary bloat for the project, as the .cc file of the seperate Decorator was only a few lines long. As it stands DroneWindDecorator.cc is not long at all, and does have a single responsibility in managing the response to wind, so I believe I did my best with that.
 
-
-
     Owen Liu - Data collection:
+    
     **SINGLETON PATTERN**
     	The object Datam, implemented in the code as Datama, is a singleton, as a Data collection manager should only have 1 instance. This way, there shouldn't be multiple instances and copies of collections active in a simulation, causing massively slower code and risking heap smashing, which is an example of the Single Responsibility Principle of SOLID Software Design.
     	Implementing a Singleton also allowed separating updates for updating to a file. This separation of design allows for future refactoring to be easy, as Datam.h and Datam.cc are responsible for their own cycle of updating ExportCSV.cc
     	I did implement a design where exporting/managing file data was in a single object, but this was purposefully done in order to make the point of my Data collection manager clearer. Although this possibly violated a design principle, it decreased code smell for future extensions to work off of it.
+        In the code, the method publicUpdate() was linked to SimulationModel's update function,as the SimulationModel itself already provides a vector of Entities that I could start keeping track in my map. publicUpdate() updates the Manager's Map with new data to be exported. After that, Data Manager's internal update() itself calls separate methods for appending to files and clearing dead Entities to be untracked.
 
         ...
 
