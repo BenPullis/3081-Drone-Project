@@ -74,8 +74,11 @@ Datam *Datam::getInstance() {
 
 // adapted code from WeatherSystem
 void Datam::updateLoop() {
+  std::cout << "Debug: in updateloop\n";
   while (running) {
+    std::cout << "Debug: running works, before update\n";
     update();
+    std::cout << "Debug: update done!!\n";
     std::this_thread::sleep_for(std::chrono::seconds(5));
   }
 }
@@ -105,20 +108,27 @@ int Datam::publicUpdate(IEntity *entity) {
   auto it = dataEntries.find(entity);
   std::cout << "Debug: attempted to find it\n";
   if (it == dataEntries.end()) {
-    new entry newEntry;
+    entry newEntry;
     std::cout << "Debug: new entry newEntry\n";
     newEntry.name = entity->getName();
     std::cout << "Debug: got name\n";
     newEntry.position = entity->getPosition();
     std::cout << "Debug: got position\n";
     newEntry.timestamp = std::chrono::system_clock::now();
+    std::cout << "Debug: got time\n";
     dataEntries[entity] = newEntry;
+    std::cout << "Debug: shoved it onto dataEntries\n";
+    std::cout << dataEntries[entity].name << "\n";
+    std::cout << dataEntries[entity].position.x << "\n";
+    std::cout << dataEntries[entity].position.y << "\n";
+    std::cout << dataEntries[entity].position.z << "\n";
+    // continue;
   }
 
   // after adding, update all the data
-
+  std::cout << "Debug: updated everything\n";
   updateLoop();
-
+  std::cout << "Debug: update loop worked\n";
   return 0;
 }
 
