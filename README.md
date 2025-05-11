@@ -134,8 +134,9 @@ Sprint retrospective:
 
 
 Jira:
+
     Sprint 1:
-    (Add screenshots)...
+<img src="https://i.imgur.com/906VWhl.png" width="800" alt="Multi-Drone UML">
 
     Sprint 2:
 <img src="https://i.imgur.com/TCafJDZ.png" width="800" alt="Multi-Drone UML">
