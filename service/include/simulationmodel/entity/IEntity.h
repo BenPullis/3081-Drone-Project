@@ -116,8 +116,9 @@ class IEntity : public IPublisher {
    */
   virtual void update(double dt) = 0;
 
- protected:
   SimulationModel* model = nullptr;
+
+ protected:
   int id = -1;
   JsonObject details;
   Vector3 position;

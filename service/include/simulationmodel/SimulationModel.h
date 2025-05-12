@@ -7,11 +7,15 @@
 
 #include "CompositeFactory.h"
 #include "Drone.h"
+#include "DroneDecorator.h"
 #include "Graph.h"
 #include "IController.h"
 #include "IEntity.h"
 #include "IObserver.h"
+#include "LeaderDrone.h"
 #include "Robot.h"
+
+class LeaderDrone;
 
 //--------------------  Model ----------------------------
 
@@ -81,6 +85,19 @@ class SimulationModel : public IObserver {
 
   void notify(const std::string& message) const;
 
+  /**
+   * @brief Returns the entities in the simulation in a vector
+   *
+   * @return vector<IEntity*> vector of IEntity*
+   */
+  std::vector<IEntity*> getEntities() const;
+
+  /**
+   * @brief Injects a disease into the simulation
+   * @param data Type JsonObject contain the disease data
+   */
+  void injectDisease(const JsonObject& data);
+
   std::deque<Package*> scheduledDeliveries;
 
  protected:
@@ -90,6 +107,8 @@ class SimulationModel : public IObserver {
   void removeFromSim(int id);
   const routing::Graph* graph = nullptr;
   CompositeFactory entityFactory;
+  std::vector<DroneDecorator*> helpers;
+  std::vector<DroneDecorator*> leaders;
 };
 
 #endif
