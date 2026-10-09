@@ -6,12 +6,13 @@
 
 #include "BeelineStrategy.h"
 
-Helicopter::Helicopter(const JsonObject& obj) : IEntity(obj) {
+Helicopter::Helicopter(const JsonObject &obj) : IEntity(obj) {
   this->lastPosition = this->position;
 }
 
 Helicopter::~Helicopter() {
-  if (movement) delete movement;
+  if (movement)
+    delete movement;
 }
 
 void Helicopter::update(double dt) {
@@ -38,7 +39,8 @@ void Helicopter::update(double dt) {
       this->distanceTraveled = 0;
     }
   } else {
-    if (movement) delete movement;
+    if (movement)
+      delete movement;
     Vector3 dest;
     dest.x = ((static_cast<double>(rand())) / RAND_MAX) * (2900) - 1400;
     dest.y = position.y;
